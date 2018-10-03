@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.1" tiledversion="2018.09.12" orientation="orthogonal" renderorder="right-down" width="15" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="1">
+ <tileset firstgid="1" source="bomb_party_v4.tsx"/>
+ <layer id="1" name="Base" width="15" height="13" locked="1">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAAy3S11cOAADG4Q+FrBwyc4xEsndEkUKFjKSyRUKDREb2iqzILirkFIkcu2T9Y55zfBfPeW9+l2+3QCDQnR6EEEpPetGbMPrQl370ZwDhDGQwg4IbwRCGMozhjGAkkYwKdqMZw1jGEcV4opnARGKYRCyTmcJUpjGdGcxkFrOZw1zmMZ84FrCQeBaxmAQSWcJSklhGMiksZwUrSSWNdFaxmjVksJZ1rGcDmWwki01kk0Mum9nCVraxnR3sZBd57GYP+eylgH3s5wCFFFFMCQc5RCmHKeMIRynnGMc5wUkqOMVpznCWc5znAhe5xGWuUMlVrlHFdW5wk1vcppo73KWGe9znAQ95xGOeUEsdT3lGPQ008pwXvKSJV4H/P2mmhde8oZW3tPGO97TzIdh/5BOf+cJXvvGdDjr5QRc/+cVv/vCXf4PpSfIMAwAA
+  </data>
+ </layer>
+ <layer id="4" name="Pipes" width="15" height="13" visible="0" locked="1">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgYGA4B8TSjMTjuwwQcI6BPADS/4BMvQ9G9Q57vb/J1PsGSoP0k5KeYfoA0ge5pQwDAAA=
+  </data>
+ </layer>
+ <layer id="2" name="Crate" width="15" height="13" visible="0" locked="1">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgoBwIA/FZIBYnQOMC4kTSwkh6iLEPl/3E2odOj9pLmr2w+CLFPnRAjH3COHWTBgBvl9+KDAMAAA==
+  </data>
+ </layer>
+ <layer id="3" name="Scorched" width="15" height="13" visible="0" locked="1">
+  <properties>
+   <property name="Tile Layer Format" value="Base64(gzip-compressed)"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgoAwcIQMj6yWHHrV31F589pILAB9U76AMAwAA
+  </data>
+ </layer>
+</map>
