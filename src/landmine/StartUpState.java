@@ -25,12 +25,11 @@ import org.newdawn.slick.state.transition.Transition;
 class StartUpState extends BasicGameState {
 
 
-
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         ResourceManager.getSound(LandMineGame.GAMESONG_RSC).loop();
-        LandMineGame bg = (LandMineGame)game;
-        bg.levels.new_level();
+//        LandMineGame bg = (LandMineGame)game;
+//        bg.levels.new_level();
     }
 
     @Override
@@ -41,17 +40,17 @@ class StartUpState extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        LandMineGame bg = (LandMineGame)game;
+        LandMineGame lmg = (LandMineGame)game;
 
         //Background
         g.drawImage(ResourceManager.getImage(LandMineGame.BACKGROUND_RSC),-500,-50);
 
-        g.scale(6.25f,6.25f);
-        bg.levels.render();
-        g.resetTransform();
+//        g.scale(6.25f,6.25f);
+//        bg.levels.render();
+//        g.resetTransform();
 
 
-        g.drawImage(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC), bg.ScreenWidth/2-(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC).getWidth()/2), bg.ScreenHeight/2+(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC).getHeight()/2));
+        g.drawImage(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC), lmg.ScreenWidth/2-(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC).getWidth()/2), lmg.ScreenHeight/2+(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC).getHeight()/2));
 
         //Name on the splash
         g.setColor(Color.white);

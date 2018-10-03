@@ -16,6 +16,7 @@ public class LandMineGame extends StateBasedGame {
     public static final int GAMEOVERSTATE = 2;
 
     public static final String STARTUP_BANNER_RSC = "landmine/resource/PressSpace.png";
+    public static final String GAMEOVER_BANNER_RSC = "landmine/resource/GameOver.png";
     public static final String BACKGROUND_RSC = "landmine/resource/background.png";
     public static final String GAMESONG_RSC = "landmine/resource/Gamesong.wav";
     public static final String LEVEL_RSC = "landmine/resource/map.tmx";
@@ -49,6 +50,8 @@ public class LandMineGame extends StateBasedGame {
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
         addState(new landmine.StartUpState());
+        addState(new GameOverState());
+        addState(new PlayingState());
 
         // the sound resource takes a particularly long time to load,
         // we preload it here to (1) reduce latency when we first play it
@@ -61,7 +64,7 @@ public class LandMineGame extends StateBasedGame {
         // preload all the resources to avoid warnings & minimize latency...
 //        ResourceManager.loadImage(BALL_BALLIMG_RSC);
 //        ResourceManager.loadImage(BALL_BROKENIMG_RSC);
-//        ResourceManager.loadImage(GAMEOVER_BANNER_RSC);
+        ResourceManager.loadImage(GAMEOVER_BANNER_RSC);
         ResourceManager.loadImage(STARTUP_BANNER_RSC);
 //        ResourceManager.loadImage(BANG_EXPLOSIONIMG_RSC);
 //        ResourceManager.loadImage(BLOCK_SPRITE_RSC);
@@ -79,7 +82,7 @@ public class LandMineGame extends StateBasedGame {
     public static void main(String[] args) {
         AppGameContainer app;
         try {
-            app = new AppGameContainer(new LandMineGame("Landmine Person!", 1000, 1000));
+            app = new AppGameContainer(new LandMineGame("Landmine Person!", 1500, 1300));
             app.setDisplayMode(1500, 1300, false);
             app.setVSync(true);
             app.start();
