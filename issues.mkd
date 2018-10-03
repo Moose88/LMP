@@ -2,10 +2,10 @@
 
 - **[1]** Need a skeletal, executable game
 - **[2]** Build a map from Tiled
+- **[3]** Build the playing state to transition from startup state
 
 ## Open Issues ##
 
-- **[3]** Build the playing state to transition from startup state
 - **[4]** Build the character entities and bomb interactions
 - **[5]** Construct AI configurations
 - **[6]** Build scoring system and timer system

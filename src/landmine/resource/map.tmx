@@ -1,27 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.1" tiledversion="2018.09.12" orientation="orthogonal" renderorder="right-down" width="15" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="15" height="13" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1">
  <tileset firstgid="1" source="bomb_party_v4.tsx"/>
- <layer id="1" name="Base" width="15" height="13" locked="1">
+ <layer name="Base" width="15" height="13" visible="0" locked="1">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAy3S11cOAADG4Q+FrBwyc4xEsndEkUKFjKSyRUKDREb2iqzILirkFIkcu2T9Y55zfBfPeW9+l2+3QCDQnR6EEEpPetGbMPrQl370ZwDhDGQwg4IbwRCGMozhjGAkkYwKdqMZw1jGEcV4opnARGKYRCyTmcJUpjGdGcxkFrOZw1zmMZ84FrCQeBaxmAQSWcJSklhGMiksZwUrSSWNdFaxmjVksJZ1rGcDmWwki01kk0Mum9nCVraxnR3sZBd57GYP+eylgH3s5wCFFFFMCQc5RCmHKeMIRynnGMc5wUkqOMVpznCWc5znAhe5xGWuUMlVrlHFdW5wk1vcppo73KWGe9znAQ95xGOeUEsdT3lGPQ008pwXvKSJV4H/P2mmhde8oZW3tPGO97TzIdh/5BOf+cJXvvGdDjr5QRc/+cVv/vCXf4PpSfIMAwAA
+   H4sIAAAAAAAAAzvKwMBwlAIsjEVMDIjFkfhSQCwNxDJo6hWgtBIBO7SgtA6SmD6UNoTSxmh6zNH41khsOyjtAKWdoLQLlHZD0+uFxPaF0v5QOhBKB0PpUDS9kUjsGCgdB6UToHQSlE5B05uBxM6G0rloagqhdDGULoXS5UhqqqB0DZreBijdBKVboHQbkppOKN2NI24mQunJUHoqktwMKD2LQPzC8BIkNnq6Wg3Ea4B4LRCvA+L1QLwBiDcC8SYs6snBACu3FRkMAwAA
   </data>
  </layer>
- <layer id="4" name="Pipes" width="15" height="13" visible="0" locked="1">
+ <layer name="Walls" width="15" height="13" locked="1">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgYGA4B8TSjMTjuwwQcI6BPADS/4BMvQ9G9Q57vb/J1PsGSoP0k5KeYfoA0ge5pQwDAAA=
-  </data>
- </layer>
- <layer id="2" name="Crate" width="15" height="13" visible="0" locked="1">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgoBwIA/FZIBYnQOMC4kTSwkh6iLEPl/3E2odOj9pLmr2w+CLFPnRAjH3COHWTBgBvl9+KDAMAAA==
-  </data>
- </layer>
- <layer id="3" name="Scorched" width="15" height="13" visible="0" locked="1">
-  <properties>
-   <property name="Tile Layer Format" value="Base64(gzip-compressed)"/>
-  </properties>
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgoAwcIQMj6yWHHrV31F589pILAB9U76AMAwAA
+   H4sIAAAAAAAAA53NW0qCYRRG4V8t81DWCBKJCC9sBEaESESNoJAICakRFCEhEjmCJCJCQkeglWXZYWItcI3g2/Cw3rsdi6IojgTmMI8kFpBCGhlksYgl5LCMlSjsVpF3F+yaXbcbtmgzsVlL2Az8W8aWe9vu2Iqt2l27Z/dxEPj3EEfumj22J7ZuT23DnuE88O8FLt1Xtmmvbcu27Y29RSfw7x267nv7YB/tk+3ZZ9vHIPDvECO84BVvGOMdH5jgE1+Y4hs/+MUf/gElRZYcDAMAAA==
   </data>
  </layer>
 </map>

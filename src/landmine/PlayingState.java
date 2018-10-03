@@ -8,10 +8,16 @@ import org.newdawn.slick.state.transition.EmptyTransition;
 import org.newdawn.slick.state.transition.HorizontalSplitTransition;
 
 public class PlayingState extends BasicGameState {
+
+    private int x, y;
+
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         LandMineGame bg = (LandMineGame)game;
         bg.levels.new_level();
+        x = 1;
+        y = 1;
+
     }
 
     @Override
@@ -30,16 +36,38 @@ public class PlayingState extends BasicGameState {
         lmg.levels.render();
         g.resetTransform();
 
+        g.scale(6.25f,6.25f);
+        g.fillRect(x*16, y*16, 16, 16);
+        g.resetTransform();
+
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 
         Input input = container.getInput();
-        LandMineGame bg = (LandMineGame)game;
+        LandMineGame lmg = (LandMineGame)game;
+
+        if(input.isKeyPressed(Input.KEY_RIGHT)){
+            if(lmg.levels.wall(x+1,y) == true){
+                x++;
+            }
+        } else if(input.isKeyPressed(Input.KEY_LEFT)){
+            if(lmg.levels.wall(x-1,y) == true){
+                x--;
+            }
+        } else if(input.isKeyPressed(Input.KEY_UP)) {
+            if (lmg.levels.wall(x, y-1) == true) {
+                y--;
+            }
+        } else if(input.isKeyPressed(Input.KEY_DOWN)){
+            if(lmg.levels.wall(x,y+1) == true){
+                y++;
+            }
+        }
 
         if (input.isKeyDown(Input.KEY_SPACE))
-            bg.enterState(LandMineGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+            lmg.enterState(LandMineGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
 
 
 
