@@ -4,6 +4,8 @@
 - **[2]** Build a map from Tiled
 - **[3]** Build the playing state to transition from startup state
 
+- **[8]** Updated startup state to be more appeasing
+
 ## Open Issues ##
 
 - **[4]** Build the character entities and bomb interactions

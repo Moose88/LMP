@@ -22,6 +22,7 @@ public class LandMineGame extends StateBasedGame {
     public static final String LEVEL_RSC = "landmine/resource/map.tmx";
     public static final String PDOWN_RSC = "landmine/resource/characters/main_d.png";
     public static final String MASTER_RSC = "landmine/resource/bomb_party_v4.png";
+    public static final String BANNER_RSC = "landmine/resource/banner.png";
 
     public Level levels;
 
@@ -75,6 +76,7 @@ public class LandMineGame extends StateBasedGame {
 //        ResourceManager.loadImage(BLOCK_SPRITE_RSC);
 //        ResourceManager.loadImage(BALL_PADDLE_RSC);
         ResourceManager.loadImage(BACKGROUND_RSC);
+        ResourceManager.loadImage(BANNER_RSC);
 //        ResourceManager.loadImage(GAME_BACKGROUND_RSC);
 
         levels = new Level();
