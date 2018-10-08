@@ -20,12 +20,15 @@ public class LandMineGame extends StateBasedGame {
     public static final String BACKGROUND_RSC = "landmine/resource/background.png";
     public static final String GAMESONG_RSC = "landmine/resource/Gamesong.wav";
     public static final String LEVEL_RSC = "landmine/resource/map.tmx";
-    public static final String PDOWN_RSC = "landmine/resource/character/main_d.png";
+    public static final String PDOWN_RSC = "landmine/resource/characters/main_d.png";
+    public static final String MASTER_RSC = "landmine/resource/bomb_party_v4.png";
 
     public Level levels;
 
     public final int ScreenWidth;
     public final int ScreenHeight;
+
+    public Player1 player;
 
     /**
      * Create the BounceGame frame, saving the width and height for later use.
@@ -68,13 +71,14 @@ public class LandMineGame extends StateBasedGame {
         ResourceManager.loadImage(GAMEOVER_BANNER_RSC);
         ResourceManager.loadImage(STARTUP_BANNER_RSC);
         ResourceManager.loadImage(PDOWN_RSC);
+        ResourceManager.loadImage(MASTER_RSC);
 //        ResourceManager.loadImage(BLOCK_SPRITE_RSC);
 //        ResourceManager.loadImage(BALL_PADDLE_RSC);
         ResourceManager.loadImage(BACKGROUND_RSC);
 //        ResourceManager.loadImage(GAME_BACKGROUND_RSC);
 
         levels = new Level();
-
+        player = new Player1(16, 16);
 
 
 
@@ -83,8 +87,8 @@ public class LandMineGame extends StateBasedGame {
     public static void main(String[] args) {
         AppGameContainer app;
         try {
-            app = new AppGameContainer(new LandMineGame("Landmine Person!", 1500, 1300));
-            app.setDisplayMode(1500, 1300, false);
+            app = new AppGameContainer(new LandMineGame("Landmine Person!", 1500, 1430));
+            app.setDisplayMode(1500, 1430, false);
             app.setVSync(true);
             app.start();
         } catch (SlickException e) {

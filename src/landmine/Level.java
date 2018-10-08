@@ -8,6 +8,7 @@ public class Level {
     private int objectLayer;
 
     public Level(){
+
     }
 
     public void new_level(){
@@ -31,7 +32,7 @@ public class Level {
     }
 
     public void render(){
-        map.render(0,0);
+        map.render(0,20);
 
     }
 }
