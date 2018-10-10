@@ -1,7 +1,6 @@
 package landmine;
 
 
-import jig.ResourceManager;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -18,7 +17,8 @@ public class PlayingState extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         LandMineGame lmg = (LandMineGame)game;
-        lmg.levels.new_level();
+
+        lmg.levels = new Level();
 
         lives = 3;
         score = 0;
@@ -26,6 +26,8 @@ public class PlayingState extends BasicGameState {
         x = 1;
         y = 1;
 
+        lmg.levels.new_level();
+        lmg.player = new Person(x*16+8,y*16+8, lmg.levels);
     }
 
     @Override
@@ -40,20 +42,20 @@ public class PlayingState extends BasicGameState {
 
 
         // Map Render
+        g.pushTransform();
         g.scale(6.25f,6.25f);
         lmg.levels.render();
-        g.resetTransform();
-
-        // Top menu
-        g.scale(2,2);
-        g.drawString("Lives: " + lives, 20, 20);
-        g.drawString("Score: " + score, 120, 20);
-        g.resetTransform();
 
         // Player object
-        g.scale(6.25f,6.25f);
-        g.fillRect(x*16, y*16+20, 16, 16);
-        g.resetTransform();
+        lmg.player.render(g);
+        g.popTransform();
+
+        // Bottom menu
+        g.pushTransform();
+        g.scale(2,2);
+        g.drawString("Lives: " + lives, 20, 675);
+        g.drawString("Score: " + score, 120, 675);
+        g.popTransform();
 
         // Paused menu
         if(paused){
@@ -83,32 +85,28 @@ public class PlayingState extends BasicGameState {
         Input input = container.getInput();
         LandMineGame lmg = (LandMineGame)game;
 
+        lmg.player.update(delta);
+
         if(input.isKeyDown(Input.KEY_RIGHT)){
-            if(lmg.levels.wall(x+1,y) == true){
 
-
-                x++;
+                lmg.player.movement(Person.Direction.EAST);
                 score++;
-                System.out.println("Moving Right");
-            }
+
         } else if(input.isKeyDown(Input.KEY_LEFT)){
-            if(lmg.levels.wall(x-1,y) == true){
-                x--;
+
+                lmg.player.movement(Person.Direction.WEST);
                 score++;
-                System.out.println("Moving Left");
-            }
+
         } else if(input.isKeyDown(Input.KEY_UP)) {
-            if (lmg.levels.wall(x, y-1) == true) {
-                y--;
+
+                lmg.player.movement(Person.Direction.NORTH);
                 score++;
-                System.out.println("Moving Up");
-            }
+
         } else if(input.isKeyDown(Input.KEY_DOWN)){
-            if(lmg.levels.wall(x,y+1) == true){
-                y++;
+
+                lmg.player.movement(Person.Direction.SOUTH);
                 score++;
-                System.out.println("Moving Down");
-            }
+
         }
 
         if (input.isKeyDown(Input.KEY_SPACE))

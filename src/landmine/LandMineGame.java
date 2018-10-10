@@ -1,7 +1,5 @@
 package landmine;
 
-import java.util.ArrayList;
-
 import jig.Entity;
 import jig.ResourceManager;
 
@@ -23,13 +21,14 @@ public class LandMineGame extends StateBasedGame {
     public static final String PDOWN_RSC = "landmine/resource/characters/main_d.png";
     public static final String MASTER_RSC = "landmine/resource/bomb_party_v4.png";
     public static final String BANNER_RSC = "landmine/resource/banner.png";
+    public static final String BANNER_BACK_RSC = "landmine/resource/banner background.png";
 
     public Level levels;
 
     public final int ScreenWidth;
     public final int ScreenHeight;
 
-    public Player1 player;
+    public Person player;
 
     /**
      * Create the BounceGame frame, saving the width and height for later use.
@@ -67,22 +66,13 @@ public class LandMineGame extends StateBasedGame {
         ResourceManager.loadSound(GAMESONG_RSC);
 
         // preload all the resources to avoid warnings & minimize latency...
-//        ResourceManager.loadImage(BALL_BALLIMG_RSC);
-//        ResourceManager.loadImage(BALL_BROKENIMG_RSC);
         ResourceManager.loadImage(GAMEOVER_BANNER_RSC);
         ResourceManager.loadImage(STARTUP_BANNER_RSC);
         ResourceManager.loadImage(PDOWN_RSC);
         ResourceManager.loadImage(MASTER_RSC);
-//        ResourceManager.loadImage(BLOCK_SPRITE_RSC);
-//        ResourceManager.loadImage(BALL_PADDLE_RSC);
         ResourceManager.loadImage(BACKGROUND_RSC);
         ResourceManager.loadImage(BANNER_RSC);
-//        ResourceManager.loadImage(GAME_BACKGROUND_RSC);
-
-        levels = new Level();
-        player = new Player1(16, 16);
-
-
+        ResourceManager.loadImage(BANNER_BACK_RSC);
 
     }
 

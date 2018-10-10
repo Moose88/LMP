@@ -1,19 +1,15 @@
 package landmine;
 
-import java.util.Iterator;
-
 import jig.ResourceManager;
 
 import org.newdawn.slick.*;
-import org.newdawn.slick.opengl.ImageData;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.EmptyTransition;
-import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.HorizontalSplitTransition;
-import org.newdawn.slick.state.transition.Transition;
-
-import javax.swing.plaf.synth.ColorType;
 
 /**
  * This state is active prior to the Game starting. In this state, sound is
@@ -25,6 +21,7 @@ import javax.swing.plaf.synth.ColorType;
  *
  * Transitions To PlayingState
  */
+
 class StartUpState extends BasicGameState {
 
     Image banner;
@@ -35,11 +32,12 @@ class StartUpState extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         LandMineGame lmg = (LandMineGame)game;
 
-        ResourceManager.getSound(LandMineGame.GAMESONG_RSC).loop();
+        // Start game music
+        //ResourceManager.getSound(LandMineGame.GAMESONG_RSC).loop();
+
+        // Start banner and initialize rotation center
         banner = new Image("landmine/resource/banner.png");
         banner.setCenterOfRotation(lmg.ScreenWidth, lmg.ScreenHeight);
-//        LandMineGame bg = (LandMineGame)game;
-//        bg.levels.new_level();
     }
 
     @Override
@@ -52,7 +50,7 @@ class StartUpState extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         LandMineGame lmg = (LandMineGame)game;
 
-        //Background
+        //Background Flag
         Color kelly  = new Color(74,129,35);
         Color lavender = new Color(181,126,220);
 
@@ -60,16 +58,17 @@ class StartUpState extends BasicGameState {
         g.fillRect(0,0,lmg.ScreenWidth, lmg.ScreenHeight/3);
         g.setColor(Color.white);
         g.fillRect(0,lmg.ScreenHeight/3, lmg.ScreenWidth, (lmg.ScreenHeight*2)/3);
-
         g.setColor(kelly);
         g.fillRect(0, (2*lmg.ScreenHeight/3),lmg.ScreenWidth, lmg.ScreenHeight);
-        //g.drawImage(ResourceManager.getImage(LandMineGame.BACKGROUND_RSC),-500,-50);
 
-        //g.drawImage(ResourceManager.getImage(LandMineGame.BANNER_RSC), lmg.ScreenWidth / 2, lmg.ScreenHeight / 2);
 
+        // Press Start image and Rotating Banner
+
+        g.drawImage(ResourceManager.getImage(LandMineGame.BANNER_BACK_RSC), lmg.ScreenWidth/2, lmg.ScreenHeight/2);
         g.drawImage(banner, (lmg.ScreenWidth/2), (lmg.ScreenHeight/2));
-        g.drawImage(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC), lmg.ScreenWidth/2-(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC).getWidth()/2), lmg.ScreenHeight/2+(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC).getHeight()/2));
-
+        g.drawImage(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC),
+                lmg.ScreenWidth/2-(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC).getWidth()/2),
+                lmg.ScreenHeight/2+(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC).getHeight()/2));
 
 
         //Name on the splash
@@ -84,16 +83,13 @@ class StartUpState extends BasicGameState {
         Input input = container.getInput();
         LandMineGame lmg = (LandMineGame)game;
 
-
-
-        rotation -= delta/10;
+        // Rotation
+        rotation -= delta/15;
         banner.setRotation(rotation);
 
-
+        // Checks for proper input
         if (input.isKeyDown(Input.KEY_SPACE))
             lmg.enterState(LandMineGame.PLAYINGSTATE, new EmptyTransition(), new HorizontalSplitTransition());
-
-
 
     }
 

@@ -12,5 +12,4 @@
 - **[5]** Construct AI configurations
 - **[6]** Build scoring system and timer system
 - **[7]** Game Over/High Score states
-- **[8]**
 - **[9]**

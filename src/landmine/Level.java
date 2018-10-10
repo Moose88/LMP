@@ -5,7 +5,7 @@ import org.newdawn.slick.tiled.TiledMap;
 public class Level {
 
     private TiledMap map;
-    private int objectLayer;
+    private int wallLayer;
 
     public Level(){
 
@@ -20,10 +20,13 @@ public class Level {
     }
 
     public boolean wall(int x, int y){
-        objectLayer = map.getLayerIndex("Walls");
-        map.getTileId(0, 0, objectLayer);
+        wallLayer = map.getLayerIndex("Walls");
+        System.out.println("wallLayer: " + wallLayer);
+        map.getTileId(0, 0, wallLayer);
 
-        if(map.getTileId(x, y, objectLayer) == 0){
+        System.out.println("TileID: " + map.getTileId(x, y, wallLayer));
+
+        if(map.getTileId(x, y, wallLayer) == 0){
             return true;
         }
 
@@ -32,7 +35,7 @@ public class Level {
     }
 
     public void render(){
-        map.render(0,20);
+        map.render(0,0);
 
     }
 }
