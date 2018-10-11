@@ -9,6 +9,7 @@ import org.newdawn.slick.state.transition.HorizontalSplitTransition;
 
 public class PlayingState extends BasicGameState {
 
+    public Level level = Level.getInstance();
     private int x, y;
     private int lives;
     private int score;
@@ -18,7 +19,7 @@ public class PlayingState extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         LandMineGame lmg = (LandMineGame)game;
 
-        lmg.levels = new Level();
+        level.new_level();
 
         lives = 3;
         score = 0;
@@ -26,8 +27,7 @@ public class PlayingState extends BasicGameState {
         x = 1;
         y = 1;
 
-        lmg.levels.new_level();
-        lmg.player = new Person(x*16+8,y*16+8, lmg.levels);
+        lmg.player = new Person(x*16+8,y*16+8, level);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class PlayingState extends BasicGameState {
         // Map Render
         g.pushTransform();
         g.scale(6.25f,6.25f);
-        lmg.levels.render();
+        level.render();
 
         // Player object
         lmg.player.render(g);
@@ -89,28 +89,36 @@ public class PlayingState extends BasicGameState {
 
         if(input.isKeyDown(Input.KEY_RIGHT)){
 
-                lmg.player.movement(Person.Direction.EAST);
-                score++;
+            lmg.player.movement(Person.Direction.EAST);
+            score++;
 
         } else if(input.isKeyDown(Input.KEY_LEFT)){
 
-                lmg.player.movement(Person.Direction.WEST);
-                score++;
+            lmg.player.movement(Person.Direction.WEST);
+            score++;
 
         } else if(input.isKeyDown(Input.KEY_UP)) {
 
-                lmg.player.movement(Person.Direction.NORTH);
-                score++;
+            lmg.player.movement(Person.Direction.NORTH);
+            score++;
 
         } else if(input.isKeyDown(Input.KEY_DOWN)){
 
-                lmg.player.movement(Person.Direction.SOUTH);
-                score++;
+            lmg.player.movement(Person.Direction.SOUTH);
+            score++;
 
         }
 
-        if (input.isKeyDown(Input.KEY_SPACE))
+        if (input.isKeyPressed(Input.KEY_SPACE) ) {
+            lmg.player.placeBomb((int)lmg.player.getX()/16, (int)lmg.player.getY()/16);
+        }
+
+        if(input.isKeyPressed(Input.KEY_Q)){
+            lmg.player.bombList.clear();
+            lmg.player.setPosition(16+8,16+8);
+
             lmg.enterState(LandMineGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+        }
 
 
 
@@ -119,10 +127,10 @@ public class PlayingState extends BasicGameState {
     @Override
     public void keyPressed(int key, char c) {
         super.keyPressed(key, c);
+
         System.out.println("Key pressed: " + key);
         if(key == Input.KEY_ESCAPE )
             paused = !paused;
-
     }
 
     @Override

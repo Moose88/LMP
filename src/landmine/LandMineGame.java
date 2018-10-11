@@ -23,7 +23,6 @@ public class LandMineGame extends StateBasedGame {
     public static final String BANNER_RSC = "landmine/resource/banner.png";
     public static final String BANNER_BACK_RSC = "landmine/resource/banner background.png";
 
-    public Level levels;
 
     public final int ScreenWidth;
     public final int ScreenHeight;
@@ -46,7 +45,7 @@ public class LandMineGame extends StateBasedGame {
         ScreenWidth = width;
 
         Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
-        Entity.setDebug(true);
+        //Entity.setDebug(true);
 
     }
 

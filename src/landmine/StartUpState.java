@@ -88,8 +88,10 @@ class StartUpState extends BasicGameState {
         banner.setRotation(rotation);
 
         // Checks for proper input
-        if (input.isKeyDown(Input.KEY_SPACE))
+        if (input.isKeyPressed(Input.KEY_SPACE)) {
             lmg.enterState(LandMineGame.PLAYINGSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+            input.clearKeyPressedRecord();
+        }
 
     }
 

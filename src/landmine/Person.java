@@ -4,13 +4,17 @@ import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
 import org.newdawn.slick.*;
-import landmine.Anim;
-
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+
+import java.util.*;
 
 public class Person extends Entity{
 
-    public boolean puttingBomb = false;
+    private float speed = 0.05f;
+    public int bombTimer = 3000;
+    public ArrayList<Bomb> bombList = new ArrayList<>(3);
 
     SpriteSheet master = new SpriteSheet(ResourceManager.getImage(LandMineGame.MASTER_RSC), 16, 16);
 
@@ -37,11 +41,12 @@ public class Person extends Entity{
         public Animation getWalk() {
             return walk;
         }
-    }
 
+    }
     private boolean isMoving = false;
     private Direction direction;
     private Vector movingTo;
+
 
     public boolean isMoving() {
         return isMoving;
@@ -72,9 +77,9 @@ public class Person extends Entity{
         Animation left = new Animation(left_a, 250);
         Direction.WEST.setWalk(left);
 
-        Direction.NORTH.setIdle(new Animation(master, 0, 16, 0, 16, false, 250, false));
-        Direction.EAST.setIdle(new Animation(master, 4, 16, 4, 16, false, 250, false));
-        Direction.SOUTH.setIdle(new Animation(master, 2, 16, 2, 16, false, 250, false));
+        Direction.NORTH.setIdle(new Animation(master, 0, 16, 0, 16, false, 250, true));
+        Direction.EAST.setIdle(new Animation(master, 4, 16, 4, 16, false, 250, true));
+        Direction.SOUTH.setIdle(new Animation(master, 1, 16, 1, 16, false, 250, true));
         Image[] left_i = new Image[1];
         left_i[0] = master.getSubImage(4, 16).getFlippedCopy(true, false);
         Direction.WEST.setIdle(new Animation(left_i, 250));
@@ -83,7 +88,13 @@ public class Person extends Entity{
         addAnimation(direction.getIdle());
     }
 
-    public void placeBomb(int x, int y){
+    public void placeBomb(int x, int y) throws SlickException {
+
+        System.out.println("I want to place a bomb at x: " + x + " y: " + y);
+        System.out.println("Adding a bomb to the bombList");
+        if(bombList.size() < 3) {
+            bombList.add(new Bomb(x*16+8, y*16+8, bombTimer));
+        }
 
     }
 
@@ -93,19 +104,19 @@ public class Person extends Entity{
 
         switch (dir){
             case NORTH:
-                if(wall.wall(x,y-1))
+                if(wall.notAWall(x,y-1))
                     return true;
                 break;
             case SOUTH:
-                if(wall.wall(x, y+1))
+                if(wall.notAWall(x, y+1))
                     return true;
                 break;
             case EAST:
-                if(wall.wall(x+1, y))
+                if(wall.notAWall(x+1, y))
                     return true;
                 break;
             case WEST:
-                if(wall.wall(x-1, y))
+                if(wall.notAWall(x-1, y))
                     return true;
                 break;
 
@@ -116,9 +127,8 @@ public class Person extends Entity{
     }
 
     public void movement(Direction dir){
-        if(isMoving){
+        if(isMoving)
             return;
-        }
 
         if(!canGo(dir))
             return;
@@ -142,25 +152,49 @@ public class Person extends Entity{
                 movingTo = getPosition().add(new Vector(-16.0f, 0));
                 break;
         }
+
         isMoving = true;
 
     }
-
-    private float speed = 0.05f;
 
     public void update(int delta){
         if(isMoving){
             double angle = getPosition().angleTo(movingTo);
             setPosition(getPosition().add(Vector.getUnit(angle).scale(speed*delta)));
-            if(getPosition().epsilonEquals(movingTo,speed*delta)){
+            if(getPosition().epsilonEquals(movingTo, speed*delta)){
                 isMoving = false;
 
                 setPosition(movingTo);
-                System.out.printf("Moved to: %s\n",getPosition());
+                removeAnimation(direction.getWalk());
+                addAnimation(direction.getIdle());
+                System.out.printf("Moved to: %s\n", getPosition());
             }
 
         }
+
+        for(Bomb bomb: bombList){
+            bomb.update(delta);
+        }
+
     }
 
+    @Override
+    public void render(Graphics g){
+        super.render(g);
+
+        ArrayList<Bomb> shouldDelete = new ArrayList<>();
+
+        for(Bomb bomb: bombList){
+            if(bomb.needsDeletion){
+                shouldDelete.add(bomb);
+            }else {
+                bomb.render(g);
+            }
+        }
+
+        for(Bomb bomb : shouldDelete){
+            bombList.remove(bomb);
+        }
+    }
 
 }

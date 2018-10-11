@@ -6,8 +6,10 @@ public class Level {
 
     private TiledMap map;
     private int wallLayer;
+    private static Level instance = null;
 
     public Level(){
+
 
     }
 
@@ -19,7 +21,7 @@ public class Level {
         }
     }
 
-    public boolean wall(int x, int y){
+    public boolean notAWall(int x, int y){
         wallLayer = map.getLayerIndex("Walls");
         System.out.println("wallLayer: " + wallLayer);
         map.getTileId(0, 0, wallLayer);
@@ -37,5 +39,13 @@ public class Level {
     public void render(){
         map.render(0,0);
 
+    }
+
+    public static Level getInstance(){
+        if(instance == null){
+            instance = new Level();
+        }
+
+        return instance;
     }
 }
