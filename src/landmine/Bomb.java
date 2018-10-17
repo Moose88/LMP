@@ -7,6 +7,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Bomb extends Entity {
 
     SpriteSheet master = new SpriteSheet(ResourceManager.getImage(LandMineGame.MASTER_RSC), 16, 16);
@@ -14,6 +16,7 @@ public class Bomb extends Entity {
     private boolean hasExploded = false;
     public boolean needsDeletion = false;
     public Level level = Level.getInstance();
+    int explosion_num = 0;
     public Explosion[] explosions = new Explosion[4];
 
     public int x;
@@ -30,11 +33,11 @@ public class Bomb extends Entity {
         gridX = x/16;
         this.y = y;
         gridY = y/16;
-        bomb = new Animation(master, 4, 18, 9, 18, true, 500, true);
+        bomb = new Animation(master, 4, 18, 9, 18, true, 300, true);
         addAnimation(bomb);
     }
 
-    int deltaSoFar = 0;
+    private int deltaSoFar = 0;
     public void update(int delta){
         deltaSoFar += delta;
         if(!hasExploded) {
@@ -42,6 +45,10 @@ public class Bomb extends Entity {
             if (timer > 0) {
                 if (deltaSoFar >= timer) {
                     hasExploded = true;
+
+                    explosion_num = ThreadLocalRandom.current().nextInt(0, LandMineGame.EXPLOSION_ARR.length);
+                    ResourceManager.getSound(LandMineGame.EXPLOSION_ARR[explosion_num]).play();
+
                     deltaSoFar = 0;
 
                     removeAnimation(bomb);
@@ -67,6 +74,10 @@ public class Bomb extends Entity {
             }
         }
 
+    }
+
+    public void detonate(){
+        timer = deltaSoFar;
     }
 
     @Override

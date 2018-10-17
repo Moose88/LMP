@@ -10,15 +10,25 @@ import org.newdawn.slick.SlickException;
 
 import java.util.*;
 
+import static landmine.LandMineGame.PERSON_HIT_RSC;
+
 public class Person extends Entity{
 
+    public Level level;
+    public int lives = 2;
+    public int bombCount = 0;
     private float speed = 0.05f;
-    public int bombTimer = 3000;
-    public ArrayList<Bomb> bombList = new ArrayList<>(3);
+    public int bombTimer = 1800;
+    public int score;
+    //public ArrayList<Bomb> bombList = new ArrayList<>(3);
+    public int pNumber;
+    private boolean dead = false;
+    private boolean isMoving = false;
+    private Direction direction;
+    private Vector movingTo;
 
     SpriteSheet master = new SpriteSheet(ResourceManager.getImage(LandMineGame.MASTER_RSC), 16, 16);
-
-    public Level wall;
+    private Animation death;
 
     public enum Direction{
         NORTH,
@@ -27,8 +37,8 @@ public class Person extends Entity{
         WEST;
 
         private Animation idle;
-        private Animation walk;
 
+        private Animation walk;
         public void setIdle(Animation idle) {
             this.idle = idle;
         }
@@ -41,25 +51,24 @@ public class Person extends Entity{
         public Animation getWalk() {
             return walk;
         }
-
     }
-    private boolean isMoving = false;
-    private Direction direction;
-    private Vector movingTo;
-
-
     public boolean isMoving() {
         return isMoving;
     }
-
     public Direction getDirection() {
         return direction;
     }
+    public boolean isDead() { return dead; }
 
-    public Person(int x, int y, Level wall) throws SlickException {
+    public Animation getDeath() { return death; }
+    public void setDeath(Animation death) { this.death = death; }
+
+    public Person(int x, int y, int pNumber) throws SlickException {
         super(x,y);
 
-        this.wall = wall;
+        this.pNumber = pNumber;
+        System.out.println("I'm Player number: " + pNumber);
+        level = Level.getInstance();
 
         Direction.SOUTH.setWalk(new Animation(master, 2, 16, 3, 16, true, 250, true));
 
@@ -84,6 +93,11 @@ public class Person extends Entity{
         left_i[0] = master.getSubImage(4, 16).getFlippedCopy(true, false);
         Direction.WEST.setIdle(new Animation(left_i, 250));
 
+        Animation death = new Animation(master, 14, 16, 14, 18, true, 100, true);
+        death.addFrame(master.getSubImage(4, 13), 100);
+        death.stopAt(3);
+        setDeath(death);
+
         direction = Direction.SOUTH;
         addAnimation(direction.getIdle());
     }
@@ -92,8 +106,10 @@ public class Person extends Entity{
 
         System.out.println("I want to place a bomb at x: " + x + " y: " + y);
         System.out.println("Adding a bomb to the bombList");
-        if(bombList.size() < 3) {
-            bombList.add(new Bomb(x*16+8, y*16+8, bombTimer));
+        if(bombCount != 3) {
+
+            bombCount++;
+            level.bombList.add(new Bomb(x*16+8, y*16+8, bombTimer));
         }
 
     }
@@ -104,19 +120,19 @@ public class Person extends Entity{
 
         switch (dir){
             case NORTH:
-                if(wall.notAWall(x,y-1))
+                if(level.notAWall(x,y-1))
                     return true;
                 break;
             case SOUTH:
-                if(wall.notAWall(x, y+1))
+                if(level.notAWall(x, y+1))
                     return true;
                 break;
             case EAST:
-                if(wall.notAWall(x+1, y))
+                if(level.notAWall(x+1, y))
                     return true;
                 break;
             case WEST:
-                if(wall.notAWall(x-1, y))
+                if(level.notAWall(x-1, y))
                     return true;
                 break;
 
@@ -127,11 +143,18 @@ public class Person extends Entity{
     }
 
     public void movement(Direction dir){
-        if(isMoving)
+        if(isMoving) {
             return;
+        }
 
-        if(!canGo(dir))
+
+        if(!canGo(dir)) {
+            removeAnimation(direction.getIdle());
+            removeAnimation(direction.getWalk());
+            direction = dir;
+            addAnimation(direction.getIdle());
             return;
+        }
 
         removeAnimation(direction.getIdle());
         removeAnimation(direction.getWalk());
@@ -167,13 +190,27 @@ public class Person extends Entity{
                 setPosition(movingTo);
                 removeAnimation(direction.getWalk());
                 addAnimation(direction.getIdle());
-                System.out.printf("Moved to: %s\n", getPosition());
+                System.out.printf("Player " + pNumber + " moved to: %s\n", getPosition());
             }
 
         }
 
-        for(Bomb bomb: bombList){
+        for(Bomb bomb: level.bombList){
             bomb.update(delta);
+        }
+
+    }
+
+
+    public void takeLife(){
+        addAnimation(getDeath());
+        ResourceManager.getSound(PERSON_HIT_RSC).play();
+
+        lives--;
+
+        if(lives <= 0){
+            //end character
+            dead = true;
         }
 
     }
@@ -181,10 +218,12 @@ public class Person extends Entity{
     @Override
     public void render(Graphics g){
         super.render(g);
+        if(dead)
+            return;
 
         ArrayList<Bomb> shouldDelete = new ArrayList<>();
 
-        for(Bomb bomb: bombList){
+        for(Bomb bomb: level.bombList){
             if(bomb.needsDeletion){
                 shouldDelete.add(bomb);
             }else {
@@ -193,7 +232,8 @@ public class Person extends Entity{
         }
 
         for(Bomb bomb : shouldDelete){
-            bombList.remove(bomb);
+            bombCount--;
+            level.bombList.remove(bomb);
         }
     }
 

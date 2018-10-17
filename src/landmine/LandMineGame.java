@@ -22,12 +22,33 @@ public class LandMineGame extends StateBasedGame {
     public static final String MASTER_RSC = "landmine/resource/bomb_party_v4.png";
     public static final String BANNER_RSC = "landmine/resource/banner.png";
     public static final String BANNER_BACK_RSC = "landmine/resource/banner background.png";
+    public static final String PERSON_HIT_RSC = "landmine/resource/hit.wav";
+    public static final String[] EXPLOSION_ARR = {
+            "landmine/resource/explosion sounds/Explosion1.wav",
+            "landmine/resource/explosion sounds/Explosion2.wav",
+            "landmine/resource/explosion sounds/Explosion3.wav",
+            "landmine/resource/explosion sounds/Explosion4.wav",
+            "landmine/resource/explosion sounds/Explosion5.wav",
+            "landmine/resource/explosion sounds/Explosion6.wav",
+            "landmine/resource/explosion sounds/Explosion7.wav",
+            "landmine/resource/explosion sounds/Explosion8.wav",
+            "landmine/resource/explosion sounds/Explosion9.wav",
+            "landmine/resource/explosion sounds/Explosion10.wav",
+            "landmine/resource/explosion sounds/Explosion11.wav",
+            "landmine/resource/explosion sounds/Explosion12.wav",
+            "landmine/resource/explosion sounds/Explosion13.wav",
+            "landmine/resource/explosion sounds/Explosion14.wav",
+            "landmine/resource/explosion sounds/Explosion15.wav",
+            "landmine/resource/explosion sounds/Explosion16.wav",
+    };
+
+
 
 
     public final int ScreenWidth;
     public final int ScreenHeight;
 
-    public Person player;
+
 
     /**
      * Create the BounceGame frame, saving the width and height for later use.
@@ -61,8 +82,11 @@ public class LandMineGame extends StateBasedGame {
         // and (2) because loading it will load the audio libraries and
         // unless that is done now, we can't *disable* sound as we
         // attempt to do in the startUp() method.
-        // ResourceManager.loadSound(BANG_EXPLOSIONSND_RSC);
         ResourceManager.loadSound(GAMESONG_RSC);
+        ResourceManager.loadSound(PERSON_HIT_RSC);
+        for(String string : EXPLOSION_ARR){
+            ResourceManager.loadSound(string);
+        }
 
         // preload all the resources to avoid warnings & minimize latency...
         ResourceManager.loadImage(GAMEOVER_BANNER_RSC);
