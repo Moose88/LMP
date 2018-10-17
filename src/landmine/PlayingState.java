@@ -114,7 +114,7 @@ public class PlayingState extends BasicGameState {
             lmg.enterState(LandMineGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
         }
 
-        
+
     }
 
     @Override
