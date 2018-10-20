@@ -10,22 +10,34 @@ import org.newdawn.slick.state.transition.HorizontalSplitTransition;
 
 public class PlayingState extends BasicGameState {
 
-    public Level level = Level.getInstance();
+    private Level level = Level.getInstance();
 
     private boolean paused;
     public Person player;
+    public float volume;
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         level.new_level();
         paused = false;
+        volume = level.game_theme.getVolume();
         player = level.playerList.get(0);
-        player.score = 0;
+        level.pNumber = player.pNumber;
+
     }
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) {
+        Input input = container.getInput();
+
         container.setSoundOn(true);
+        input.clearKeyPressedRecord();
+        if(!paused){
+            level.bombList.clear();
+            player.setPosition(16+8,16+8);
+            player.reset();
+        }
+
     }
 
 
@@ -33,14 +45,17 @@ public class PlayingState extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         LandMineGame lmg  = (LandMineGame)game;
 
-
         // Map Render
         g.pushTransform();
         g.scale(6.25f,6.25f);
         level.render();
 
         // Player object
-        player.render(g);
+        for(Person player : level.playerList) {
+            if(player.lives > 0);
+                player.render(g);
+        }
+
         g.popTransform();
 
         // Bottom menu
@@ -58,8 +73,8 @@ public class PlayingState extends BasicGameState {
 
             g.setColor(new Color(0.5f,0.0f,0.0f,0.5f));
 
-            float x1 = ((lmg.ScreenWidth/6)-(g.getFont().getWidth(paused)/3));
-            float y1 = ((lmg.ScreenHeight/6)-(g.getFont().getHeight(paused)/3));
+            float x1 = ((lmg.ScreenWidth/6f)-(g.getFont().getWidth(paused)/3f));
+            float y1 = ((lmg.ScreenHeight/6f)-(g.getFont().getHeight(paused)/3f));
 
             g.fillRect(x1,y1,g.getFont().getWidth(paused)+10,g.getFont().getHeight(paused)+10);
             g.setColor(Color.cyan);
@@ -71,15 +86,28 @@ public class PlayingState extends BasicGameState {
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-
-        if(paused)
-            return;
-
         Input input = container.getInput();
         LandMineGame lmg = (LandMineGame)game;
 
-        level.checkDeath();
-        player.update(delta);
+        if(paused) {
+            level.game_theme.setVolume(volume/10f);
+            return;
+        }
+
+        if(level.checkDeath()) {
+
+            player.getDeath().stop();
+            input.clearKeyPressedRecord();
+            lmg.enterState(LandMineGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+        }
+
+        for(Person person : level.playerList){
+            person.update(delta);
+        }
+
+        for (Bomb bomb : level.bombList) {
+            bomb.update(delta);
+        }
 
         if(input.isKeyDown(Input.KEY_RIGHT)){
 
@@ -104,16 +132,12 @@ public class PlayingState extends BasicGameState {
         }
 
         if (input.isKeyPressed(Input.KEY_SPACE) ) {
-            player.placeBomb((int)player.getX()/16, (int)player.getY()/16);
+            player.placeBomb((int) player.getX()/16, (int) player.getY()/16);
         }
 
         if(input.isKeyPressed(Input.KEY_Q)){
-            level.bombList.clear();
-            player.setPosition(16+8,16+8);
-
-            lmg.enterState(LandMineGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+            container.exit();
         }
-
 
     }
 
@@ -122,8 +146,10 @@ public class PlayingState extends BasicGameState {
         super.keyPressed(key, c);
 
         //System.out.println("Key pressed: " + key);
-        if(key == Input.KEY_ESCAPE )
+        if(key == Input.KEY_ESCAPE ) {
+            level.game_theme.setVolume(volume * 10f);
             paused = !paused;
+        }
     }
 
     @Override

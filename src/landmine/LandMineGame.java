@@ -2,7 +2,6 @@ package landmine;
 
 import jig.Entity;
 import jig.ResourceManager;
-
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -18,7 +17,6 @@ public class LandMineGame extends StateBasedGame {
     public static final String BACKGROUND_RSC = "landmine/resource/background.png";
     public static final String GAMESONG_RSC = "landmine/resource/Gamesong.wav";
     public static final String LEVEL_RSC = "landmine/resource/map.tmx";
-    public static final String PDOWN_RSC = "landmine/resource/characters/main_d.png";
     public static final String MASTER_RSC = "landmine/resource/bomb_party_v4.png";
     public static final String BANNER_RSC = "landmine/resource/banner.png";
     public static final String BANNER_BACK_RSC = "landmine/resource/banner background.png";
@@ -91,7 +89,6 @@ public class LandMineGame extends StateBasedGame {
         // preload all the resources to avoid warnings & minimize latency...
         ResourceManager.loadImage(GAMEOVER_BANNER_RSC);
         ResourceManager.loadImage(STARTUP_BANNER_RSC);
-        ResourceManager.loadImage(PDOWN_RSC);
         ResourceManager.loadImage(MASTER_RSC);
         ResourceManager.loadImage(BACKGROUND_RSC);
         ResourceManager.loadImage(BANNER_RSC);

@@ -3,6 +3,7 @@ package landmine;
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
+import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -15,17 +16,21 @@ import static landmine.LandMineGame.PERSON_HIT_RSC;
 public class Person extends Entity{
 
     public Level level;
-    public int lives = 2;
+    private boolean invincible = false;
+    private int invincible_time = 2000;
+    private int deltaSoFar = 0;
+    public int lives = 3;
     public int bombCount = 0;
     private float speed = 0.05f;
-    public int bombTimer = 1800;
+    public int bombTimer = 2400;
     public int score;
-    //public ArrayList<Bomb> bombList = new ArrayList<>(3);
+    public Vector bombPosition;
     public int pNumber;
     private boolean dead = false;
     private boolean isMoving = false;
     private Direction direction;
     private Vector movingTo;
+
 
     SpriteSheet master = new SpriteSheet(ResourceManager.getImage(LandMineGame.MASTER_RSC), 16, 16);
     private Animation death;
@@ -52,13 +57,18 @@ public class Person extends Entity{
             return walk;
         }
     }
+
     public boolean isMoving() {
         return isMoving;
     }
+
     public Direction getDirection() {
         return direction;
     }
+    public void setDirection(Direction dir) {this.direction = dir; }
+
     public boolean isDead() { return dead; }
+    public void setDead(Boolean dead) { this.dead = dead; }
 
     public Animation getDeath() { return death; }
     public void setDeath(Animation death) { this.death = death; }
@@ -95,7 +105,6 @@ public class Person extends Entity{
 
         Animation death = new Animation(master, 14, 16, 14, 18, true, 100, true);
         death.addFrame(master.getSubImage(4, 13), 100);
-        death.stopAt(3);
         setDeath(death);
 
         direction = Direction.SOUTH;
@@ -103,13 +112,13 @@ public class Person extends Entity{
     }
 
     public void placeBomb(int x, int y) throws SlickException {
+        bombPosition = new Vector(x*16+8, y*16+8);
 
-        System.out.println("I want to place a bomb at x: " + x + " y: " + y);
-        System.out.println("Adding a bomb to the bombList");
-        if(bombCount != 3) {
+        if(bombCount != 3 && !level.isBombHere(bombPosition)) {
 
             bombCount++;
-            level.bombList.add(new Bomb(x*16+8, y*16+8, bombTimer));
+            System.out.println("Player " + pNumber + " has " + bombCount + " bombs used.");
+            level.bombList.add(new Bomb(x*16+8, y*16+8, bombTimer, pNumber));
         }
 
     }
@@ -180,38 +189,77 @@ public class Person extends Entity{
 
     }
 
-    public void update(int delta){
-        if(isMoving){
-            double angle = getPosition().angleTo(movingTo);
-            setPosition(getPosition().add(Vector.getUnit(angle).scale(speed*delta)));
-            if(getPosition().epsilonEquals(movingTo, speed*delta)){
-                isMoving = false;
+    public void reset(){
+        removeAnimation(getDeath());
+        removeAnimation(direction.getIdle());
+        removeAnimation(direction.getWalk());
 
-                setPosition(movingTo);
-                removeAnimation(direction.getWalk());
-                addAnimation(direction.getIdle());
-                System.out.printf("Player " + pNumber + " moved to: %s\n", getPosition());
+        invincible = false;
+        invincible_time = 2000;
+        deltaSoFar = 0;
+        lives = 3;
+        bombCount = 0;
+        speed = 0.05f;
+        bombTimer = 1800;
+        score = 0;
+        dead = false;
+        isMoving = false;
+
+        direction = Direction.SOUTH;
+        addAnimation(direction.getIdle());
+    }
+
+
+    public void update(int delta){
+        if(!dead) {
+            deltaSoFar += delta;
+            if (isMoving) {
+                double angle = getPosition().angleTo(movingTo);
+                setPosition(getPosition().add(Vector.getUnit(angle).scale(speed * delta)));
+                if (getPosition().epsilonEquals(movingTo, speed * delta)) {
+                    isMoving = false;
+
+                    setPosition(movingTo);
+                    removeAnimation(direction.getWalk());
+                    addAnimation(direction.getIdle());
+                    System.out.printf("Player " + pNumber + " moved to: %s\n", getPosition());
+                }
+
             }
 
-        }
-
-        for(Bomb bomb: level.bombList){
-            bomb.update(delta);
+            if (deltaSoFar >= invincible_time && invincible) {
+                removeAnimation(getDeath());
+                System.out.println("Player " + pNumber + " is no longer invincible...");
+                invincible = false;
+            }
         }
 
     }
 
 
     public void takeLife(){
-        addAnimation(getDeath());
-        ResourceManager.getSound(PERSON_HIT_RSC).play();
 
-        lives--;
+        if(!invincible) {
 
-        if(lives <= 0){
-            //end character
-            dead = true;
+            lives--;
+            System.out.println("Player " + pNumber + " has " + lives + " lives remaining.");
+
+            if (lives <= 0) {
+                //end character
+                System.out.println("Player " + pNumber + " is dead.");
+                dead = true;
+            } else {
+                addAnimation(getDeath());
+                ResourceManager.getSound(PERSON_HIT_RSC).play();
+            }
+
         }
+
+        //Set invincible here with a small timer in the update loop.
+        invincible = true;
+        deltaSoFar = 0;
+        if(!dead)
+            System.out.println("Player number " + pNumber + " is invincible.");
 
     }
 
@@ -232,8 +280,11 @@ public class Person extends Entity{
         }
 
         for(Bomb bomb : shouldDelete){
-            bombCount--;
-            level.bombList.remove(bomb);
+            if(bomb.pNumber == pNumber) {
+                bombCount--;
+                System.out.println("Player " + pNumber + " has used " + bombCount + " many bombs.");
+                level.bombList.remove(bomb);
+            }
         }
     }
 

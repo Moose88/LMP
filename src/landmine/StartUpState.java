@@ -24,16 +24,22 @@ import org.newdawn.slick.state.transition.HorizontalSplitTransition;
 
 class StartUpState extends BasicGameState {
 
-    Image banner;
-    int rotation = 0;
+    private Image banner;
+    private int rotation = 0;
+    public Level level = Level.getInstance();
 
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         LandMineGame lmg = (LandMineGame)game;
 
+        Input input = container.getInput();
+        input.clearKeyPressedRecord();
+
         // Start game music
-        //ResourceManager.getSound(LandMineGame.GAMESONG_RSC).loop();
+        level.game_theme.play();
+
+        //ResourceManager.getSound(LandMineGame.GAMESONG_RSC).loop(1, -5);
 
         // Start banner and initialize rotation center
         banner = new Image("landmine/resource/banner.png");
@@ -42,7 +48,10 @@ class StartUpState extends BasicGameState {
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) {
+
         container.setSoundOn(true);
+        Input input = container.getInput();
+        input.clearKeyPressedRecord();
     }
 
 
@@ -55,20 +64,21 @@ class StartUpState extends BasicGameState {
         Color lavender = new Color(181,126,220);
 
         g.setColor(lavender);
-        g.fillRect(0,0,lmg.ScreenWidth, lmg.ScreenHeight/3);
+        g.fillRect(0,0,lmg.ScreenWidth, lmg.ScreenHeight/3f);
         g.setColor(Color.white);
-        g.fillRect(0,lmg.ScreenHeight/3, lmg.ScreenWidth, (lmg.ScreenHeight*2)/3);
+        g.fillRect(0,lmg.ScreenHeight/3f, lmg.ScreenWidth, (lmg.ScreenHeight*2)/3f);
         g.setColor(kelly);
-        g.fillRect(0, (2*lmg.ScreenHeight/3),lmg.ScreenWidth, lmg.ScreenHeight);
+        g.fillRect(0, (2*lmg.ScreenHeight/3f),lmg.ScreenWidth, lmg.ScreenHeight);
 
 
         // Press Start image and Rotating Banner
 
-        g.drawImage(ResourceManager.getImage(LandMineGame.BANNER_BACK_RSC), lmg.ScreenWidth/2, lmg.ScreenHeight/2);
-        g.drawImage(banner, (lmg.ScreenWidth/2), (lmg.ScreenHeight/2));
+        g.drawImage(ResourceManager.getImage(LandMineGame.BANNER_BACK_RSC), lmg.ScreenWidth/2f,
+                lmg.ScreenHeight/2f);
+        g.drawImage(banner, (lmg.ScreenWidth/2f), (lmg.ScreenHeight/2f));
         g.drawImage(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC),
-                lmg.ScreenWidth/2-(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC).getWidth()/2),
-                lmg.ScreenHeight/2+(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC).getHeight()/2));
+                lmg.ScreenWidth/2f-(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC).getWidth()/2f),
+                lmg.ScreenHeight/2f+(ResourceManager.getImage(LandMineGame.STARTUP_BANNER_RSC).getHeight()/2f));
 
 
         //Name on the splash
@@ -79,7 +89,6 @@ class StartUpState extends BasicGameState {
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-
         Input input = container.getInput();
         LandMineGame lmg = (LandMineGame)game;
 
@@ -91,6 +100,10 @@ class StartUpState extends BasicGameState {
         if (input.isKeyPressed(Input.KEY_SPACE)) {
             lmg.enterState(LandMineGame.PLAYINGSTATE, new EmptyTransition(), new HorizontalSplitTransition());
             input.clearKeyPressedRecord();
+        }
+
+        if(input.isKeyPressed(Input.KEY_Q)){
+            container.exit();
         }
 
     }

@@ -2,6 +2,7 @@ package landmine;
 
 import jig.Entity;
 import jig.ResourceManager;
+import jig.Vector;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -14,6 +15,7 @@ public class Bomb extends Entity {
     SpriteSheet master = new SpriteSheet(ResourceManager.getImage(LandMineGame.MASTER_RSC), 16, 16);
     private Animation bomb;
     private boolean hasExploded = false;
+    public int pNumber;
     public boolean needsDeletion = false;
     public Level level = Level.getInstance();
     int explosion_num = 0;
@@ -25,7 +27,7 @@ public class Bomb extends Entity {
     public int gridY;
     public int timer;
 
-    public Bomb(int x, int y, int timer) throws SlickException {
+    public Bomb(int x, int y, int timer, int pNumber) throws SlickException {
         super(x, y);
 
         this.timer = timer;
@@ -33,7 +35,8 @@ public class Bomb extends Entity {
         gridX = x/16;
         this.y = y;
         gridY = y/16;
-        bomb = new Animation(master, 4, 18, 9, 18, true, 300, true);
+        this.pNumber = pNumber;
+        bomb = new Animation(master, 4, 18, 9, 18, true, timer/6, true);
         addAnimation(bomb);
     }
 
@@ -52,6 +55,7 @@ public class Bomb extends Entity {
                     deltaSoFar = 0;
 
                     removeAnimation(bomb);
+                    if(level.explosionPath(new Vector(x,y)));
                     addImageWithBoundingBox(master.getSubImage(2, 18));
                     if (level.notAWall(gridX, gridY - 1)) {
                         explosions[0] = new Explosion(x, y - 16, Explosion.Direction.NORTH);

@@ -1,17 +1,19 @@
 package landmine;
 
 import jig.Vector;
-import org.lwjgl.Sys;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Level {
 
     private TiledMap map;
     private int wallLayer;
     private static Level instance = null;
+    Music game_theme;
     public int pNumber;
     public Vector position;
 
@@ -28,8 +30,9 @@ public class Level {
     // Needed for rendering and mechanics implementation
     public ArrayList<Bomb> bombList = new ArrayList<>();
 
-    private Level(){
+    private Level() throws SlickException {
 
+        game_theme = new Music(LandMineGame.GAMESONG_RSC);
 
     }
 
@@ -40,14 +43,17 @@ public class Level {
             e.printStackTrace();
         }
 
-        for(int i = 0; i < 1; i++){
-            try {
-                // Manually setting to 24, 24. Instead use mathematical double for loop for player placement
-                playerList.add(i, new Person((i+1)*16+8,(i+1)*16+8, i));
-            } catch (SlickException e) {
-                e.printStackTrace();
-            }
+
+        try {
+            // Manually setting to 24, 24. Instead use mathematical double for loop for player placement
+            playerList.add(0, new Person(16+8,16+8, 0));
+            playerList.add(1, new Person(13*(16)+8, 24, 1));
+            playerList.add(2, new Person(16+8, 11*(16)+8, 2));
+            playerList.add(3, new Person(13*(16)+8, 11*(16)+8, 3));
+        } catch (SlickException e) {
+            e.printStackTrace();
         }
+
 
 
     }
@@ -64,22 +70,36 @@ public class Level {
         }
 
         for(Bomb bomb : bombList){
-            if(bomb.getPosition().epsilonEquals(vector, 1.0)){
+            if(bomb.getPosition().epsilonEquals(vector, 8.0)){
                 bomb.detonate();
             }
         }
 
+        return false;
+    }
 
+    public boolean isBombHere(Vector vector){
+        for(Bomb bomb : bombList){
+            System.out.println("Bomb position: " + bomb.getPosition() + " vector position: " + vector);
+            if(bomb.getPosition().epsilonEquals(vector, 8.0))
+                return true;
+        }
 
         return false;
     }
 
-    public void checkDeath(){
-        for(Person player: playerList){
-            if(player.isDead()){
-                playerList.remove(player);
+    public boolean checkDeath(){
+        Iterator<Person> it = playerList.iterator();
+        while(it.hasNext()){
+            Person person = it.next();
+            if(person.isDead()){
+                if(person.pNumber == pNumber){
+                    return true;
+                }
+                it.remove();
             }
         }
+        return false;
     }
 
     public boolean notAWall(int x, int y){
@@ -103,7 +123,11 @@ public class Level {
 
     public static Level getInstance(){
         if(instance == null){
-            instance = new Level();
+            try {
+                instance = new Level();
+            } catch (SlickException e) {
+                e.printStackTrace();
+            }
         }
 
         return instance;
