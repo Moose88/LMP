@@ -18,11 +18,10 @@ public class PlayingState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        level.new_level();
+
+
         paused = false;
-        volume = level.game_theme.getVolume();
-        player = level.playerList.get(0);
-        level.pNumber = player.pNumber;
+
 
     }
 
@@ -30,12 +29,18 @@ public class PlayingState extends BasicGameState {
     public void enter(GameContainer container, StateBasedGame game) {
         Input input = container.getInput();
 
+        level.playerList.clear();
+        level.bombList.clear();
+        level.new_level();
+        volume = level.game_theme.getVolume();
+        player = level.playerList.get(2);
+        level.pNumber = player.pNumber;
+
         container.setSoundOn(true);
         input.clearKeyPressedRecord();
         if(!paused){
             level.bombList.clear();
-            player.setPosition(16+8,16+8);
-            player.reset();
+
         }
 
     }
@@ -52,8 +57,9 @@ public class PlayingState extends BasicGameState {
 
         // Player object
         for(Person player : level.playerList) {
-            if(player.lives > 0);
+            if(player.lives > 0) {
                 player.render(g);
+            }
         }
 
         g.popTransform();
@@ -95,7 +101,6 @@ public class PlayingState extends BasicGameState {
         }
 
         if(level.checkDeath()) {
-
             player.getDeath().stop();
             input.clearKeyPressedRecord();
             lmg.enterState(LandMineGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
@@ -149,6 +154,11 @@ public class PlayingState extends BasicGameState {
         if(key == Input.KEY_ESCAPE ) {
             level.game_theme.setVolume(volume * 10f);
             paused = !paused;
+        }
+
+        if(key == Input.KEY_Z){
+            player.lives = 0;
+            player.takeLife();
         }
     }
 

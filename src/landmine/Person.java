@@ -156,17 +156,15 @@ public class Person extends Entity{
             return;
         }
 
+        removeAnimation(direction.getIdle());
+        removeAnimation(direction.getWalk());
 
         if(!canGo(dir)) {
-            removeAnimation(direction.getIdle());
-            removeAnimation(direction.getWalk());
             direction = dir;
             addAnimation(direction.getIdle());
             return;
         }
 
-        removeAnimation(direction.getIdle());
-        removeAnimation(direction.getWalk());
         direction = dir;
         addAnimation(direction.getWalk());
 
@@ -205,8 +203,20 @@ public class Person extends Entity{
         dead = false;
         isMoving = false;
 
-        direction = Direction.SOUTH;
-        addAnimation(direction.getIdle());
+        switch (pNumber){
+            case 0:
+                setPosition(16+8,16+8);
+                break;
+            case 1:
+                setPosition(13*(16)+8, 24);
+                break;
+            case 2:
+                setPosition(16+8, 11*(16)+8);
+                break;
+            case 3:
+                setPosition(13*(16)+8, 11*(16)+8);
+                break;
+        }
     }
 
 

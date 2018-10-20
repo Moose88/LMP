@@ -43,7 +43,6 @@ public class Level {
             e.printStackTrace();
         }
 
-
         try {
             // Manually setting to 24, 24. Instead use mathematical double for loop for player placement
             playerList.add(0, new Person(16+8,16+8, 0));
@@ -60,19 +59,19 @@ public class Level {
 
     public boolean explosionPath(Vector vector){
 
-        for(Person player : playerList){
-            //System.out.println("Player position: " + player.getPosition() + " Explosion vector: " + vector);
-           if(player.getPosition().epsilonEquals(vector, 8.0)) {
-               player.takeLife();
-               //System.out.println("Lives remaining for player " + player.pNumber + " equals: " + player.lives);
-               return true;
-           }
-        }
-
         for(Bomb bomb : bombList){
             if(bomb.getPosition().epsilonEquals(vector, 8.0)){
                 bomb.detonate();
             }
+        }
+
+        for(Person player : playerList){
+            //System.out.println("Player position: " + player.getPosition() + " Explosion vector: " + vector);
+            if(player.getPosition().epsilonEquals(vector, 8.0)) {
+               player.takeLife();
+               //System.out.println("Lives remaining for player " + player.pNumber + " equals: " + player.lives);
+               return true;
+           }
         }
 
         return false;
