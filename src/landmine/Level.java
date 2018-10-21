@@ -15,6 +15,7 @@ public class Level {
     private int wallLayer;
     private static Level instance = null;
     public Music game_theme;
+    public Music start_theme;
     public int pNumber;
     private boolean isPlayerBomb = false;
     public int[][] safespace = new int[15][13];
@@ -29,6 +30,7 @@ public class Level {
     private Level() throws SlickException {
 
         game_theme = new Music(LandMineGame.GAMESONG_RSC);
+        start_theme = new Music(LandMineGame.PLAYSONG_RSC);
 
     }
 

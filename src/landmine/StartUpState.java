@@ -37,7 +37,7 @@ class StartUpState extends BasicGameState {
         input.clearKeyPressedRecord();
 
         // Start game music
-        //level.game_theme.play();
+        level.game_theme.play();
 
         //ResourceManager.getSound(LandMineGame.GAMESONG_RSC).loop(1, -5);
 
@@ -92,12 +92,27 @@ class StartUpState extends BasicGameState {
 
         g.setColor(new Color(0.5f,0.0f,0.0f,0.5f));
 
-        float x1 = ((lmg.ScreenWidth/10f)-(g.getFont().getWidth(controls)/3f));
+        float x1 = ((lmg.ScreenWidth/11.5f)-(g.getFont().getWidth(controls)/3f));
         float y1 = ((lmg.ScreenHeight/16f)-(g.getFont().getHeight(controls)/3f));
 
         g.fillRect(x1,y1,g.getFont().getWidth(controls)+10,g.getFont().getHeight(controls)+10);
         g.setColor(Color.cyan);
         g.drawString(controls, x1+3, y1+3);
+        g.popTransform();
+
+        g.pushTransform();
+        g.scale(2f,2f);
+
+        String scoring = "Scoring:\n Moving: -1 each step .\n Each second you survive: +100.\n Placing a bomb: +50.\n Taking a hit: -200.";
+
+        g.setColor(new Color(0.5f,0.0f,0.0f,0.5f));
+
+        float x2 = ((lmg.ScreenWidth/2.8f)-(g.getFont().getWidth(scoring)/3f));
+        float y2 = ((lmg.ScreenHeight/16f)-(g.getFont().getHeight(scoring)/3f));
+
+        g.fillRect(x2,y2,g.getFont().getWidth(scoring)+10,g.getFont().getHeight(scoring)+10);
+        g.setColor(Color.cyan);
+        g.drawString(scoring, x2+3, y2+3);
         g.popTransform();
 
     }
@@ -114,6 +129,8 @@ class StartUpState extends BasicGameState {
         // Checks for proper input
         if (input.isKeyPressed(Input.KEY_SPACE)) {
             lmg.enterState(LandMineGame.PLAYINGSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+            level.game_theme.stop();
+            level.start_theme.play();
             input.clearKeyPressedRecord();
         }
 

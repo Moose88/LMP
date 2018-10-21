@@ -16,6 +16,7 @@ public class LandMineGame extends StateBasedGame {
     public static final String GAMEOVER_BANNER_RSC = "landmine/resource/GameOver.png";
     public static final String BACKGROUND_RSC = "landmine/resource/background.png";
     public static final String GAMESONG_RSC = "landmine/resource/Gamesong.wav";
+    public static final String PLAYSONG_RSC = "landmine/resource/Playsong.wav";
     public static final String LEVEL_RSC = "landmine/resource/map.tmx";
     public static final String MASTER_RSC = "landmine/resource/bomb_party_v4.png";
     public static final String BANNER_RSC = "landmine/resource/banner.png";
@@ -81,6 +82,7 @@ public class LandMineGame extends StateBasedGame {
         // unless that is done now, we can't *disable* sound as we
         // attempt to do in the startUp() method.
         ResourceManager.loadSound(GAMESONG_RSC);
+        ResourceManager.loadSound(PLAYSONG_RSC);
         ResourceManager.loadSound(PERSON_HIT_RSC);
         for(String string : EXPLOSION_ARR){
             ResourceManager.loadSound(string);

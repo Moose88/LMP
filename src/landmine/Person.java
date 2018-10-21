@@ -239,6 +239,9 @@ public class Person extends Entity{
 
             lives--;
             System.out.println("Player " + pNumber + " has " + lives + " lives remaining.");
+            if(pNumber == 0){
+                PlayingState.score = PlayingState.score - 200;
+            }
 
             if (lives <= 0) {
                 //end character

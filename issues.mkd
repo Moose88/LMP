@@ -18,10 +18,11 @@
 - **[10]** Add animations and graphics
     - Minor bug with Left/Right animations, see 10.1
 
-## Open Low-Bar Issues ##
-
 - **[6]** Build scoring system and timer system
     - Manage to calculate score for kills, movement, and placed bombs.
+
+## Open Low-Bar Issues ##
+
 
 - **[7]** Game Over/High Score states
     - While game is active, store the high score and display it on the startup screen

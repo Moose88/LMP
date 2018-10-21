@@ -14,19 +14,25 @@ public class PlayingState extends BasicGameState {
 
     private boolean paused;
     private boolean newLevel;
+    private boolean success;
     public static int score;
     private Person player;
     private Person comp1;
     private Person comp2;
     private Person comp3;
-    public static int dead = 0;
+    public static int second;
+    public static int deltaSoFar;
+    public static int waitTime;
+    public static int dead;
     public float volume;
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         score = 0;
         paused = false;
+        success = false;
         newLevel = false;
+        waitTime = 0;
 
     }
 
@@ -34,7 +40,10 @@ public class PlayingState extends BasicGameState {
     public void enter(GameContainer container, StateBasedGame game) {
         Input input = container.getInput();
 
+        second = 1000;
         dead = 0;
+        deltaSoFar = 0;
+        success = false;
         newLevel = false;
         level.playerList.clear();
         level.bombList.clear();
@@ -102,6 +111,37 @@ public class PlayingState extends BasicGameState {
             g.setColor(Color.cyan);
             g.drawString(paused, x1+3, y1+3);
             g.resetTransform();
+
+            g.pushTransform();
+            g.scale(2f,2f);
+
+            String controls = "Controls:\n Up/Down/Left/Right: Directional keys\n Place Bomb: Space\n Pause: ESC\n Quit: 'Q'";
+
+            g.setColor(new Color(0.5f,0.0f,0.0f,0.5f));
+
+            float x2 = ((lmg.ScreenWidth/10f)-(g.getFont().getWidth(controls)/3f));
+            float y2 = ((lmg.ScreenHeight/16f)-(g.getFont().getHeight(controls)/3f));
+
+            g.fillRect(x2,y2,g.getFont().getWidth(controls)+10,g.getFont().getHeight(controls)+10);
+            g.setColor(Color.cyan);
+            g.drawString(controls, x2+3, y2+3);
+            g.popTransform();
+        }
+
+        if(success){
+            g.scale(3f,3f);
+
+            String nextlevel = "SUCCESS!!!\nYou've survived this round, now survive the next!";
+
+            g.setColor(new Color(0.5f,0.0f,0.0f,0.5f));
+
+            float x1 = ((lmg.ScreenWidth/8.7f)-(g.getFont().getWidth(nextlevel)/3f));
+            float y1 = ((lmg.ScreenHeight/6f)-(g.getFont().getHeight(nextlevel)/3f));
+
+            g.fillRect(x1,y1,g.getFont().getWidth(nextlevel)+10,g.getFont().getHeight(nextlevel)+10);
+            g.setColor(Color.cyan);
+            g.drawString(nextlevel, x1+3, y1+3);
+            g.resetTransform();
         }
 
     }
@@ -111,14 +151,28 @@ public class PlayingState extends BasicGameState {
         Input input = container.getInput();
         LandMineGame lmg = (LandMineGame)game;
 
+        deltaSoFar += delta;
+
+        if(deltaSoFar >= second){
+            if(!newLevel)
+                score = score + 100;
+            deltaSoFar = 0;
+        }
+
         if(paused) {
-            level.game_theme.setVolume(volume/10f);
+            input.clearKeyPressedRecord();
+            level.start_theme.setVolume(volume/10f);
             return;
         }
 
         if(newLevel){
             System.out.println("Next level!");
-            lmg.enterState(LandMineGame.PLAYINGSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+            //Render a success screen for 5 seconds, then do whatever.
+            success = true;
+            if(waitTime >= 5000)
+                lmg.enterState(LandMineGame.PLAYINGSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+
+            waitTime += delta;
         }
 
         if(player.lives == 0) {
@@ -151,28 +205,28 @@ public class PlayingState extends BasicGameState {
         if(input.isKeyDown(Input.KEY_RIGHT)){
 
             player.movement(Person.Direction.EAST);
-            score++;
+            score--;
 
         } else if(input.isKeyDown(Input.KEY_LEFT)){
 
             player.movement(Person.Direction.WEST);
-            score++;
+            score--;
 
         } else if(input.isKeyDown(Input.KEY_UP)) {
 
             player.movement(Person.Direction.NORTH);
-            score++;
+            score--;
 
         } else if(input.isKeyDown(Input.KEY_DOWN)){
 
             player.movement(Person.Direction.SOUTH);
-            score++;
+            score--;
 
         }
 
         if (input.isKeyPressed(Input.KEY_SPACE) ) {
             player.placeBomb((int) player.getX()/16, (int) player.getY()/16);
-            score = score+2;
+            score = score+50;
         }
 
         if(input.isKeyPressed(Input.KEY_Q)){
@@ -188,7 +242,7 @@ public class PlayingState extends BasicGameState {
 
         //System.out.println("Key pressed: " + key);
         if(key == Input.KEY_ESCAPE ) {
-            level.game_theme.setVolume(volume * 10f);
+            level.start_theme.setVolume(volume * 10f);
             paused = !paused;
         }
 
