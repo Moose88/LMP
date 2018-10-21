@@ -56,7 +56,6 @@ public class Dinky extends Person {
 
                 } else {
 
-                    System.out.println("ATTACKING!!!");
                     attack = new LinkedList<>();
                     int[][] battlefield = level.safespace;
 

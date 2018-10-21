@@ -13,13 +13,17 @@ public class PlayingState extends BasicGameState {
     private Level level = Level.getInstance();
 
     private boolean paused;
-    public Person player;
+    private boolean newLevel;
+    private Person player;
+    private Person comp1;
+    private Person comp2;
+    private Person comp3;
     public float volume;
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         paused = false;
-
+        newLevel = false;
 
     }
 
@@ -33,6 +37,9 @@ public class PlayingState extends BasicGameState {
         level.findSafeSpaces();
         volume = level.game_theme.getVolume();
         player = level.playerList.get(0);
+        comp1 = level.playerList.get(1);
+        comp2 = level.playerList.get(2);
+        comp3 = level.playerList.get(3);
         level.pNumber = player.pNumber;
 
         container.setSoundOn(true);
@@ -67,6 +74,12 @@ public class PlayingState extends BasicGameState {
         g.scale(2,2);
         g.drawString("Lives: " + level.playerList.get(0).lives, 20, 675);
         g.drawString("Score: " + player.score, 120, 675);
+        if(comp1 != null)
+            g.drawString("Player 2 lives: " + comp1.lives, 250, 650);
+        if(comp2 != null)
+            g.drawString("Player 3 lives: " + comp2.lives, 250, 675);
+        if(comp3 != null)
+            g.drawString("Player 4 lives: " + comp3.lives, 250, 700);
         g.popTransform();
 
         // Paused menu
@@ -98,10 +111,25 @@ public class PlayingState extends BasicGameState {
             return;
         }
 
-        if(level.checkDeath()) {
+        if(newLevel){
+            System.out.println("Next level!");
+            lmg.enterState(LandMineGame.PLAYINGSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+        }
+
+        if(player.lives == 0) {
             player.getDeath().stop();
             input.clearKeyPressedRecord();
             lmg.enterState(LandMineGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+        }
+
+        for(Person person : level.playerList){
+            int dead = 0;
+            if(person.isDead())
+                dead++;
+
+            if(dead == 3){
+                newLevel = true;
+            }
         }
 
         for(Person person : level.playerList){
