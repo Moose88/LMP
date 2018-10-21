@@ -85,6 +85,21 @@ class StartUpState extends BasicGameState {
         g.setColor(Color.white);
         g.drawString("By Matthew Bourgoine", 1200, 1200);
 
+        g.pushTransform();
+        g.scale(2f,2f);
+
+        String controls = "Controls:\n Up/Down/Left/Right: Directional keys\n Place Bomb: Space\n Pause: ESC\n Quit: 'Q'";
+
+        g.setColor(new Color(0.5f,0.0f,0.0f,0.5f));
+
+        float x1 = ((lmg.ScreenWidth/10f)-(g.getFont().getWidth(controls)/3f));
+        float y1 = ((lmg.ScreenHeight/16f)-(g.getFont().getHeight(controls)/3f));
+
+        g.fillRect(x1,y1,g.getFont().getWidth(controls)+10,g.getFont().getHeight(controls)+10);
+        g.setColor(Color.cyan);
+        g.drawString(controls, x1+3, y1+3);
+        g.popTransform();
+
     }
 
     @Override

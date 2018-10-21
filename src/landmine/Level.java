@@ -16,6 +16,7 @@ public class Level {
     private static Level instance = null;
     public Music game_theme;
     public int pNumber;
+    private boolean isPlayerBomb = false;
     public int[][] safespace = new int[15][13];
     LinkedList<Vector> safe = new LinkedList<>();
 
@@ -59,7 +60,9 @@ public class Level {
             if(bomb.getPosition().epsilonEquals(vector, 8.0)){
                 bomb.detonate();
             }
+
         }
+
 
         for(Person player : playerList){
             //System.out.println("Player position: " + player.getPosition() + " Explosion vector: " + vector);
@@ -80,21 +83,6 @@ public class Level {
                 return true;
         }
 
-        return false;
-    }
-
-    public boolean checkDeath(){
-        Iterator<Person> it = playerList.iterator();
-        while(it.hasNext()){
-            Person person = it.next();
-            if(person.isDead()){
-                if(person.pNumber == pNumber){
-                    return true;
-                }
-                it.remove();
-                System.out.println("There are " + playerList.size() + " remaining players.");
-            }
-        }
         return false;
     }
 

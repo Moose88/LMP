@@ -10,7 +10,7 @@ public class Dinky extends Person {
     private boolean isSissyBitch;
     private boolean standby;
     private int deltaSoFar;
-    private int timer = 1000;
+    private int timer = 1500;
     LinkedList<Vector> attack = new LinkedList<>();
 
     public Dinky(int x, int y, int pNumber) throws SlickException {

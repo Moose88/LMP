@@ -11,8 +11,7 @@ public class Explosion extends Entity {
 
     SpriteSheet master = new SpriteSheet(ResourceManager.getImage(LandMineGame.MASTER_RSC), 16, 16);
     public enum Direction{ NORTH, SOUTH, EAST, WEST }
-    Level level = Level.getInstance();
-    Vector vector;
+    private Level level = Level.getInstance();
     public int gridX;
     public int gridY;
 
@@ -24,7 +23,7 @@ public class Explosion extends Entity {
         //System.out.println("Exploding!");
         gridX = x / 16;
         gridY = y / 16;
-        vector = new Vector(x, y);
+        Vector vector = new Vector(x, y);
 
         switch (direction){
             case NORTH:

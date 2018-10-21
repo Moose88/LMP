@@ -14,14 +14,17 @@ public class PlayingState extends BasicGameState {
 
     private boolean paused;
     private boolean newLevel;
+    public static int score;
     private Person player;
     private Person comp1;
     private Person comp2;
     private Person comp3;
+    public static int dead = 0;
     public float volume;
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
+        score = 0;
         paused = false;
         newLevel = false;
 
@@ -31,6 +34,8 @@ public class PlayingState extends BasicGameState {
     public void enter(GameContainer container, StateBasedGame game) {
         Input input = container.getInput();
 
+        dead = 0;
+        newLevel = false;
         level.playerList.clear();
         level.bombList.clear();
         level.new_level();
@@ -73,7 +78,7 @@ public class PlayingState extends BasicGameState {
         g.pushTransform();
         g.scale(2,2);
         g.drawString("Lives: " + level.playerList.get(0).lives, 20, 675);
-        g.drawString("Score: " + player.score, 120, 675);
+        g.drawString("Score: " + score, 120, 675);
         if(comp1 != null)
             g.drawString("Player 2 lives: " + comp1.lives, 250, 650);
         if(comp2 != null)
@@ -118,14 +123,16 @@ public class PlayingState extends BasicGameState {
 
         if(player.lives == 0) {
             player.getDeath().stop();
-            input.clearKeyPressedRecord();
-            lmg.enterState(LandMineGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+            //input.clearKeyPressedRecord();
+            //lmg.enterState(LandMineGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
         }
 
+        int dead = 0;
         for(Person person : level.playerList){
-            int dead = 0;
-            if(person.isDead())
+            if(person.isDead()) {
+                System.out.println("Someone died lul, dead = " + dead);
                 dead++;
+            }
 
             if(dead == 3){
                 newLevel = true;
@@ -144,27 +151,28 @@ public class PlayingState extends BasicGameState {
         if(input.isKeyDown(Input.KEY_RIGHT)){
 
             player.movement(Person.Direction.EAST);
-            player.score++;
+            score++;
 
         } else if(input.isKeyDown(Input.KEY_LEFT)){
 
             player.movement(Person.Direction.WEST);
-            player.score++;
+            score++;
 
         } else if(input.isKeyDown(Input.KEY_UP)) {
 
             player.movement(Person.Direction.NORTH);
-            player.score++;
+            score++;
 
         } else if(input.isKeyDown(Input.KEY_DOWN)){
 
             player.movement(Person.Direction.SOUTH);
-            player.score++;
+            score++;
 
         }
 
         if (input.isKeyPressed(Input.KEY_SPACE) ) {
             player.placeBomb((int) player.getX()/16, (int) player.getY()/16);
+            score = score+2;
         }
 
         if(input.isKeyPressed(Input.KEY_Q)){

@@ -24,7 +24,6 @@ public class Person extends Entity{
     public int bombCount = 0;
     private float speed = 0.05f;
     public int bombTimer = 2400;
-    public int score;
     public Vector bombPosition;
     public int pNumber;
     private boolean dead = false;
@@ -76,7 +75,6 @@ public class Person extends Entity{
 
     public Person(int x, int y, int pNumber) throws SlickException {
         super(x,y);
-
 
         this.pNumber = pNumber;
         if(pNumber != 0)
@@ -241,7 +239,6 @@ public class Person extends Entity{
 
             lives--;
             System.out.println("Player " + pNumber + " has " + lives + " lives remaining.");
-            score = score + 50;
 
             if (lives <= 0) {
                 //end character
