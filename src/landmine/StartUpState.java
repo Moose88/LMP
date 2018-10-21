@@ -37,7 +37,7 @@ class StartUpState extends BasicGameState {
         input.clearKeyPressedRecord();
 
         // Start game music
-        level.game_theme.play();
+        //level.game_theme.play();
 
         //ResourceManager.getSound(LandMineGame.GAMESONG_RSC).loop(1, -5);
 

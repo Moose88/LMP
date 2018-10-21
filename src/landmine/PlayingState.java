@@ -18,8 +18,6 @@ public class PlayingState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-
-
         paused = false;
 
 
@@ -32,15 +30,15 @@ public class PlayingState extends BasicGameState {
         level.playerList.clear();
         level.bombList.clear();
         level.new_level();
+        level.findSafeSpaces();
         volume = level.game_theme.getVolume();
-        player = level.playerList.get(2);
+        player = level.playerList.get(0);
         level.pNumber = player.pNumber;
 
         container.setSoundOn(true);
         input.clearKeyPressedRecord();
         if(!paused){
             level.bombList.clear();
-
         }
 
     }
@@ -143,6 +141,7 @@ public class PlayingState extends BasicGameState {
         if(input.isKeyPressed(Input.KEY_Q)){
             container.exit();
         }
+
 
     }
 

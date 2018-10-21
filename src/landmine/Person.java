@@ -16,6 +16,7 @@ import static landmine.LandMineGame.PERSON_HIT_RSC;
 public class Person extends Entity{
 
     public Level level;
+    public boolean AI = false;
     private boolean invincible = false;
     private int invincible_time = 2000;
     private int deltaSoFar = 0;
@@ -76,8 +77,18 @@ public class Person extends Entity{
     public Person(int x, int y, int pNumber) throws SlickException {
         super(x,y);
 
+
         this.pNumber = pNumber;
+        if(pNumber != 0)
+            AI = true;
+
         System.out.println("I'm Player number: " + pNumber);
+
+        if(AI)
+            System.out.println("I am player " + pNumber + " and I'm an AI.");
+        else
+            System.out.println("I am player " + pNumber + " and I'm a human.");
+
         level = Level.getInstance();
 
         Direction.SOUTH.setWalk(new Animation(master, 2, 16, 3, 16, true, 250, true));
@@ -109,6 +120,7 @@ public class Person extends Entity{
 
         direction = Direction.SOUTH;
         addAnimation(direction.getIdle());
+        System.out.println("Player " + pNumber + " is standing  " + direction);
     }
 
     public void placeBomb(int x, int y) throws SlickException {
@@ -117,8 +129,9 @@ public class Person extends Entity{
         if(bombCount != 3 && !level.isBombHere(bombPosition)) {
 
             bombCount++;
-            System.out.println("Player " + pNumber + " has " + bombCount + " bombs used.");
+            System.out.println("Player " + pNumber + " has " + bombCount + " bombs on the map.");
             level.bombList.add(new Bomb(x*16+8, y*16+8, bombTimer, pNumber));
+            level.findSafeSpaces();
         }
 
     }
@@ -157,15 +170,19 @@ public class Person extends Entity{
         }
 
         removeAnimation(direction.getIdle());
+        System.out.println("Removing " + pNumber + " " + direction + " idle.");
         removeAnimation(direction.getWalk());
+        System.out.println("Removing " + pNumber + " " + direction + " walk.");
 
         if(!canGo(dir)) {
             direction = dir;
+            System.out.println("Adding " + pNumber + " " + direction + " idle.");
             addAnimation(direction.getIdle());
             return;
         }
 
         direction = dir;
+        System.out.println("Adding " + pNumber + " " + direction + " walk.");
         addAnimation(direction.getWalk());
 
         switch (direction){
@@ -187,42 +204,10 @@ public class Person extends Entity{
 
     }
 
-    public void reset(){
-        removeAnimation(getDeath());
-        removeAnimation(direction.getIdle());
-        removeAnimation(direction.getWalk());
-
-        invincible = false;
-        invincible_time = 2000;
-        deltaSoFar = 0;
-        lives = 3;
-        bombCount = 0;
-        speed = 0.05f;
-        bombTimer = 1800;
-        score = 0;
-        dead = false;
-        isMoving = false;
-
-        switch (pNumber){
-            case 0:
-                setPosition(16+8,16+8);
-                break;
-            case 1:
-                setPosition(13*(16)+8, 24);
-                break;
-            case 2:
-                setPosition(16+8, 11*(16)+8);
-                break;
-            case 3:
-                setPosition(13*(16)+8, 11*(16)+8);
-                break;
-        }
-    }
-
-
     public void update(int delta){
         if(!dead) {
             deltaSoFar += delta;
+
             if (isMoving) {
                 double angle = getPosition().angleTo(movingTo);
                 setPosition(getPosition().add(Vector.getUnit(angle).scale(speed * delta)));
@@ -231,7 +216,9 @@ public class Person extends Entity{
 
                     setPosition(movingTo);
                     removeAnimation(direction.getWalk());
+                    System.out.println("Removing " + pNumber + " " + direction + " walk.");
                     addAnimation(direction.getIdle());
+                    System.out.println("Adding " + pNumber + " " + direction + " idle.");
                     System.out.printf("Player " + pNumber + " moved to: %s\n", getPosition());
                 }
 
@@ -244,8 +231,9 @@ public class Person extends Entity{
             }
         }
 
-    }
 
+
+    }
 
     public void takeLife(){
 
@@ -253,6 +241,7 @@ public class Person extends Entity{
 
             lives--;
             System.out.println("Player " + pNumber + " has " + lives + " lives remaining.");
+            score = score + 50;
 
             if (lives <= 0) {
                 //end character
@@ -292,8 +281,9 @@ public class Person extends Entity{
         for(Bomb bomb : shouldDelete){
             if(bomb.pNumber == pNumber) {
                 bombCount--;
-                System.out.println("Player " + pNumber + " has used " + bombCount + " many bombs.");
+                System.out.println("Player " + pNumber + " has " + bombCount + " many bombs on the map.");
                 level.bombList.remove(bomb);
+                level.findSafeSpaces();
             }
         }
     }

@@ -7,24 +7,19 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 public class Level {
 
     private TiledMap map;
     private int wallLayer;
     private static Level instance = null;
-    Music game_theme;
+    public Music game_theme;
     public int pNumber;
-    public Vector position;
-
-
-    // List containing player positions
-    public ArrayList<Vector> locationList = new ArrayList<>();
+    public int[][] safespace = new int[15][13];
+    LinkedList<Vector> safe = new LinkedList<>();
 
     public ArrayList<Person> playerList = new ArrayList<>(4);
-
-    // List containing bomb positions (for rendering)
-    public ArrayList<Explosion> explisionList = new ArrayList<>();
 
     // List containing explosion positions, and checking if players are contained in said positions
     // Needed for rendering and mechanics implementation
@@ -46,9 +41,10 @@ public class Level {
         try {
             // Manually setting to 24, 24. Instead use mathematical double for loop for player placement
             playerList.add(0, new Person(16+8,16+8, 0));
-            playerList.add(1, new Person(13*(16)+8, 24, 1));
-            playerList.add(2, new Person(16+8, 11*(16)+8, 2));
-            playerList.add(3, new Person(13*(16)+8, 11*(16)+8, 3));
+            playerList.add(1, new Dinky(13*(16)+8, 24, 1));
+            playerList.add(2, new Dinky(16+8, 11*(16)+8, 2));
+            playerList.add(3, new Dinky(13*(16)+8, 11*(16)+8, 3));
+
         } catch (SlickException e) {
             e.printStackTrace();
         }
@@ -96,6 +92,7 @@ public class Level {
                     return true;
                 }
                 it.remove();
+                System.out.println("There are " + playerList.size() + " remaining players.");
             }
         }
         return false;
@@ -131,4 +128,83 @@ public class Level {
 
         return instance;
     }
+
+    public void findSafeSpaces(){
+        // First zero safe space array so everything is safe and warm
+        for(int i = 0; i < 15; i++){
+            for(int j = 0; j < 13; j++){
+                if(notAWall(i, j))
+                    safespace[i][j] = 1;
+                else
+                    safespace[i][j] = Integer.MAX_VALUE;
+            }
+        }
+
+        // for each bomb in list update safe spaces
+        for( Bomb bomb : bombList){
+            int x = bomb.gridX;
+            int y = bomb.gridY;
+
+            int ix = x;
+            int iy = y;
+
+            while(notAWall(ix, iy)){
+                safespace[ix][iy]++;
+                iy--;
+            }
+
+            ix = x;
+            iy = y;
+
+            while(notAWall(ix, iy)){
+                safespace[ix][iy]++;
+                iy++;
+            }
+
+            ix = x;
+            iy = y;
+
+            while(notAWall(ix, iy)){
+                safespace[ix][iy]++;
+                ix--;
+            }
+
+            ix = x;
+            iy = y;
+
+            while(notAWall(ix, iy)){
+                safespace[ix][iy]++;
+                ix++;
+            }
+
+
+        }
+
+        for(int i = 0; i < safespace.length; i++){
+            for(int j = 0; j < safespace[i].length; j++){
+                System.out.print(String.format(" %s ",safespace[i][j]).replace("], ", "]\n"
+                ).replace("[[", "["
+                ).replace("]]", "]"
+                ).replace(", ", " "
+                ).replace(String.valueOf(Integer.MAX_VALUE),"W"
+                ).replace("0", " "));
+            }
+            System.out.println();
+        }
+
+
+        safe = new LinkedList<>();
+        for(int i = 0; i < safespace.length; i++){
+            for(int j = 0; j < safespace[i].length; j++){
+                if(safespace[i][j] == 1){
+                    safe.add(new Vector(i,j));
+                }
+            }
+        }
+        System.out.println("Source Vector Array is " + safe.size() + " long");
+        Vector[] s = safe.toArray(new Vector[safe.size()]);
+        dykeStraw.getSafeInstance().perform(safespace, s);
+
+    }
+
 }
