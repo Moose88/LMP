@@ -105,7 +105,8 @@ public class PlayingState extends BasicGameState {
         }
 
         for(Person person : level.playerList){
-            person.update(delta);
+            if(person != null)
+                person.update(delta);
         }
 
         for (Bomb bomb : level.bombList) {

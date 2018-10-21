@@ -4,12 +4,12 @@
 - **[2]** Build a map from Tiled
 - **[3]** Build the playing state to transition from startup state
 - **[4]** Build the character entities and bomb interactions
+- **[5]** Construct AI configurations
 
 - **[8]** Updated startup state to be more appeasing
 
 ## Open Issues ##
-
-- **[5]** Construct AI configurations
+- **[5.1]** Change the lives of players to become 0, instead of removing them from the playerlist.
 - **[6]** Build scoring system and timer system
 - **[7]** Game Over/High Score states
 - **[9]**
