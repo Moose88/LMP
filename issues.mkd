@@ -23,7 +23,6 @@
 
 ## Open Low-Bar Issues ##
 
-
 - **[7]** Game Over/High Score states
     - While game is active, store the high score and display it on the startup screen
 
