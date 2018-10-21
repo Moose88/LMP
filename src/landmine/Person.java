@@ -117,8 +117,8 @@ public class Person extends Entity{
         setDeath(death);
 
         direction = Direction.SOUTH;
-        addAnimation(direction.getIdle());
-        System.out.println("Player " + pNumber + " is standing  " + direction);
+        clearAnimations();
+
     }
 
     public void placeBomb(int x, int y) throws SlickException {
@@ -167,35 +167,33 @@ public class Person extends Entity{
             return;
         }
 
-        removeAnimation(direction.getIdle());
-        System.out.println("Removing " + pNumber + " " + direction + " idle.");
-        removeAnimation(direction.getWalk());
-        System.out.println("Removing " + pNumber + " " + direction + " walk.");
+        clearAnimations();
 
         if(!canGo(dir)) {
             direction = dir;
-            System.out.println("Adding " + pNumber + " " + direction + " idle.");
             addAnimation(direction.getIdle());
+
             return;
-        }
 
-        direction = dir;
-        System.out.println("Adding " + pNumber + " " + direction + " walk.");
-        addAnimation(direction.getWalk());
+        } else {
 
-        switch (direction){
-            case NORTH:
-                movingTo = getPosition().add(new Vector(0,-16.0f));
-                break;
-            case SOUTH:
-                movingTo = getPosition().add(new Vector(0,16.0f));
-                break;
-            case EAST:
-                movingTo = getPosition().add(new Vector(16.0f, 0f));
-                break;
-            case WEST:
-                movingTo = getPosition().add(new Vector(-16.0f, 0));
-                break;
+            direction = dir;
+            addAnimation(direction.getWalk());
+
+            switch (direction) {
+                case NORTH:
+                    movingTo = getPosition().add(new Vector(0, -16.0f));
+                    break;
+                case SOUTH:
+                    movingTo = getPosition().add(new Vector(0, 16.0f));
+                    break;
+                case EAST:
+                    movingTo = getPosition().add(new Vector(16.0f, 0f));
+                    break;
+                case WEST:
+                    movingTo = getPosition().add(new Vector(-16.0f, 0));
+                    break;
+            }
         }
 
         isMoving = true;
@@ -213,11 +211,9 @@ public class Person extends Entity{
                     isMoving = false;
 
                     setPosition(movingTo);
-                    removeAnimation(direction.getWalk());
-                    System.out.println("Removing " + pNumber + " " + direction + " walk.");
+                    clearAnimations();
                     addAnimation(direction.getIdle());
-                    System.out.println("Adding " + pNumber + " " + direction + " idle.");
-                    System.out.printf("Player " + pNumber + " moved to: %s\n", getPosition());
+                    //System.out.printf("Player " + pNumber + " moved to: %s\n", getPosition());
                 }
 
             }
@@ -259,6 +255,21 @@ public class Person extends Entity{
         deltaSoFar = 0;
         if(!dead)
             System.out.println("Player number " + pNumber + " is invincible.");
+
+    }
+
+    private void clearAnimations(){
+        removeAnimation(Direction.SOUTH.getWalk());
+        removeAnimation(Direction.NORTH.getWalk());
+        removeAnimation(Direction.WEST.getWalk());
+        removeAnimation(Direction.EAST.getWalk());
+
+        removeAnimation(Direction.SOUTH.getIdle());
+        removeAnimation(Direction.NORTH.getIdle());
+        removeAnimation(Direction.WEST.getIdle());
+        removeAnimation(Direction.EAST.getIdle());
+
+        removeAnimation(getDeath());
 
     }
 
