@@ -10,6 +10,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 public class GameOverState extends BasicGameState {
 
     private int timer;
+    public Level level = Level.getInstance();
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -22,6 +23,7 @@ public class GameOverState extends BasicGameState {
     public void enter(GameContainer container, StateBasedGame game) {
         Input input = container.getInput();
         input.clearKeyPressedRecord();
+
         timer = 4000;
     }
 
@@ -49,6 +51,7 @@ public class GameOverState extends BasicGameState {
         if (timer <= 0) {
             input.resetInputTransform();
             input.clearKeyPressedRecord();
+            level.start_theme.stop();
             game.enterState(LandMineGame.STARTUPSTATE, new EmptyTransition(), new FadeInTransition());
         }
 

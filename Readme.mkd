@@ -74,3 +74,7 @@ format (e.g. level one would have less destructible blocks as level two)
 
 - GRAPHICS!
     - Completed!
+
+Licensing:
+----------
+All resources, as well as code and art/music is part of GPL.

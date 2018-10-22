@@ -36,8 +36,7 @@ class StartUpState extends BasicGameState {
         Input input = container.getInput();
         input.clearKeyPressedRecord();
 
-        // Start game music
-        level.game_theme.play();
+
 
         //ResourceManager.getSound(LandMineGame.GAMESONG_RSC).loop(1, -5);
 
@@ -48,6 +47,9 @@ class StartUpState extends BasicGameState {
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) {
+
+        // Start game music
+        level.game_theme.loop();
 
         container.setSoundOn(true);
         Input input = container.getInput();

@@ -295,16 +295,16 @@ public class PlayingState extends BasicGameState {
             paused = !paused;
         }
 
-//        if(key == Input.KEY_Z){
-//            player.lives = 0;
-//            player.takeLife();
-//        }
-//
-//        if(key == Input.KEY_W){
-//            comp1.lives = 0;
-//            comp2.lives = 0;
-//            comp3.lives = 0;
-//        }
+        if(key == Input.KEY_Z){
+            player.lives = 0;
+            player.takeLife();
+        }
+
+        if(key == Input.KEY_W){
+            comp1.lives = 0;
+            comp2.lives = 0;
+            comp3.lives = 0;
+        }
     }
 
     @Override
