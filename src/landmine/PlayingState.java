@@ -51,9 +51,13 @@ public class PlayingState extends BasicGameState {
         level.findSafeSpaces();
         volume = level.game_theme.getVolume();
         player = level.playerList.get(0);
+        player.initialAnimation();
         comp1 = level.playerList.get(1);
+        comp1.initialAnimation();
         comp2 = level.playerList.get(2);
+        comp2.initialAnimation();
         comp3 = level.playerList.get(3);
+        comp3.initialAnimation();
         level.pNumber = player.pNumber;
 
         container.setSoundOn(true);

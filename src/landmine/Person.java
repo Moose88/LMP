@@ -283,6 +283,10 @@ public class Person extends Entity{
 
     }
 
+    public void initialAnimation(){
+        addAnimation(direction.getIdle());
+    }
+
     @Override
     public void render(Graphics g){
         super.render(g);
