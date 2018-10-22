@@ -10,7 +10,7 @@ public class Dinky extends Person {
     private boolean isSissyBitch;
     private boolean standby;
     private int deltaSoFar;
-    private int timer = 2000;
+    private int timer = 1500;
     LinkedList<Vector> attack = new LinkedList<>();
 
     public Dinky(int x, int y, int pNumber) throws SlickException {
@@ -64,7 +64,7 @@ public class Dinky extends Person {
                     Iterator<Person> it = level.playerList.iterator();
                     while (it.hasNext()) {
                         Person person = it.next();
-                        if (person.pNumber != this.pNumber) {
+                        if (person.pNumber != this.pNumber  && person.isDead() == false) {
                             int ex = (int) person.getX() / 16;
                             int ey = (int) person.getY() / 16;
 
@@ -137,7 +137,8 @@ public class Dinky extends Person {
                     } else {
 
                         try {
-                            this.placeBomb((int) this.getX() / 16, (int) this.getY() / 16);
+                            if(this.isDead() == false)
+                                this.placeBomb((int) this.getX() / 16, (int) this.getY() / 16);
                         } catch (SlickException e) {
                             e.printStackTrace();
                         }
