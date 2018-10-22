@@ -1,0 +1,24 @@
+Author: Matthew Bourgoine
+
+## Land Mine Person ##
+
+Welcome to Land Mine Person, where the objective of the game, is simply
+to survive as long as possible against the patriarchy. You start in the
+top left corner, the gender fluid character that chooses their new
+gender every half second! Your enemies however, are all the other 3
+players in every other corner. Move, dodge, and strategically place your
+ bombs in which to retaliate against your cis gendered enemies.
+
+Controls:
+---------
+- Up/Down/Left/Right: Directional keys
+- Place Bomb: Space
+- Pause: ESC
+- Quit: 'Q'
+
+Score is determined as follows:
+-------------------------------
+- For each second you survive, you gain 100 points.
+- When you place a bomb, you gain 50 points.
+- If you take a hit, you lose 200 points.
+- Every time you move, you lose one point per step.

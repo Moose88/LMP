@@ -7,12 +7,17 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.EmptyTransition;
 import org.newdawn.slick.state.transition.HorizontalSplitTransition;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 
 public class PlayingState extends BasicGameState {
 
     private Level level = Level.getInstance();
 
     public static int remainingLives;
+    private float red;
+    private float blue;
+    private float green;
     private boolean paused;
     private boolean newLevel;
     private boolean success;
@@ -35,6 +40,7 @@ public class PlayingState extends BasicGameState {
         newLevel = false;
         waitTime = 0;
         remainingLives = 3;
+
 
     }
 
@@ -164,6 +170,15 @@ public class PlayingState extends BasicGameState {
         Input input = container.getInput();
         LandMineGame lmg = (LandMineGame)game;
 
+        if (newColor(delta)) {
+            red = ThreadLocalRandom.current().nextFloat();
+            blue = ThreadLocalRandom.current().nextFloat();
+            green = ThreadLocalRandom.current().nextFloat();
+
+            player.SetColor(new Color(red, blue, green));
+
+        }
+
         deltaSoFar += delta;
 
         if(deltaSoFar >= second){
@@ -225,6 +240,7 @@ public class PlayingState extends BasicGameState {
         if(input.isKeyDown(Input.KEY_RIGHT)){
 
             player.movement(Person.Direction.EAST);
+
             score--;
 
         } else if(input.isKeyDown(Input.KEY_LEFT)){
@@ -252,6 +268,20 @@ public class PlayingState extends BasicGameState {
         if(input.isKeyPressed(Input.KEY_Q)){
             container.exit();
         }
+
+    }
+
+    private int timer = 0;
+    private boolean newColor(int delta){
+        timer += delta;
+
+        if(timer >= 500) {
+            timer = 0;
+            return true;
+        }
+
+        else
+            return false;
 
     }
 
