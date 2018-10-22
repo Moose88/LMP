@@ -8,6 +8,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class LandMineGame extends StateBasedGame {
 
+    public int highScore = 0;
+
     public static final int STARTUPSTATE = 0;
     public static final int PLAYINGSTATE = 1;
     public static final int GAMEOVERSTATE = 2;

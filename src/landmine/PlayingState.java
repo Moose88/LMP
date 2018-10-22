@@ -98,6 +98,7 @@ public class PlayingState extends BasicGameState {
             g.drawString("Player 3 lives: " + comp2.lives, 250, 675);
         if(comp3 != null)
             g.drawString("Player 4 lives: " + comp3.lives, 250, 700);
+        g.drawString("High Score: " + lmg.highScore, 500, 675);
         g.popTransform();
 
         // Paused menu
@@ -179,10 +180,16 @@ public class PlayingState extends BasicGameState {
             waitTime += delta;
         }
 
-        if(player.lives == 0) {
+        if(player.isDead()) {
             player.getDeath().stop();
-            //input.clearKeyPressedRecord();
-            //lmg.enterState(LandMineGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+            input.clearKeyPressedRecord();
+
+            if(score > lmg.highScore){
+                lmg.highScore = score;
+            }
+
+            score = 0;
+            lmg.enterState(LandMineGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
         }
 
         int dead = 0;
