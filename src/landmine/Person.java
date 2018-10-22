@@ -18,6 +18,7 @@ public class Person extends Entity{
     public Level level;
     public boolean AI = false;
     private boolean invincible = false;
+    private boolean damaged = false;
     private int invincible_time = 2000;
     private int deltaSoFar = 0;
     public int lives = 3;
@@ -172,6 +173,8 @@ public class Person extends Entity{
         if(!canGo(dir)) {
             direction = dir;
             addAnimation(direction.getIdle());
+            if(damaged)
+                addAnimation(getDeath());
 
             return;
 
@@ -179,6 +182,8 @@ public class Person extends Entity{
 
             direction = dir;
             addAnimation(direction.getWalk());
+            if(damaged)
+                addAnimation(getDeath());
 
             switch (direction) {
                 case NORTH:
@@ -213,6 +218,8 @@ public class Person extends Entity{
                     setPosition(movingTo);
                     clearAnimations();
                     addAnimation(direction.getIdle());
+                    if(damaged)
+                        addAnimation(getDeath());
                     //System.out.printf("Player " + pNumber + " moved to: %s\n", getPosition());
                 }
 
@@ -222,6 +229,7 @@ public class Person extends Entity{
                 removeAnimation(getDeath());
                 System.out.println("Player " + pNumber + " is no longer invincible...");
                 invincible = false;
+                damaged = false;
             }
         }
 
@@ -234,6 +242,8 @@ public class Person extends Entity{
         if(!invincible) {
 
             lives--;
+            damaged = true;
+
             System.out.println("Player " + pNumber + " has " + lives + " lives remaining.");
             if(pNumber == 0){
                 PlayingState.score = PlayingState.score - 200;
