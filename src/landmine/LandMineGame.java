@@ -94,6 +94,7 @@ public class LandMineGame extends StateBasedGame {
         ResourceManager.loadImage(GAMEOVER_BANNER_RSC);
         ResourceManager.loadImage(STARTUP_BANNER_RSC);
         ResourceManager.loadImage(MASTER_RSC);
+        ResourceManager.getImage(MASTER_RSC).setFilter(Image.FILTER_NEAREST);
         ResourceManager.loadImage(BACKGROUND_RSC);
         ResourceManager.loadImage(BANNER_RSC);
         ResourceManager.loadImage(BANNER_BACK_RSC);

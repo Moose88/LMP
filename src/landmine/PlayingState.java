@@ -78,6 +78,9 @@ public class PlayingState extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         LandMineGame lmg  = (LandMineGame)game;
 
+        Color kelly  = new Color(74,129,35);
+        Color lavender = new Color(181,126,220);
+
         // Map Render
         g.pushTransform();
         g.scale(6.25f,6.25f);
@@ -112,13 +115,13 @@ public class PlayingState extends BasicGameState {
 
             String paused = "PAUSED!";
 
-            g.setColor(new Color(0.5f,0.0f,0.0f,0.5f));
+            g.setColor(kelly);
 
-            float x1 = ((lmg.ScreenWidth/6f)-(g.getFont().getWidth(paused)/3f));
-            float y1 = ((lmg.ScreenHeight/6f)-(g.getFont().getHeight(paused)/3f));
+            float x1 = ((lmg.ScreenWidth/6f)-(g.getFont().getWidth(paused)/2f));
+            float y1 = ((lmg.ScreenHeight/6f)-(g.getFont().getHeight(paused)/2f));
 
             g.fillRect(x1,y1,g.getFont().getWidth(paused)+10,g.getFont().getHeight(paused)+10);
-            g.setColor(Color.cyan);
+            g.setColor(Color.white);
             g.drawString(paused, x1+3, y1+3);
             g.resetTransform();
 
@@ -127,13 +130,13 @@ public class PlayingState extends BasicGameState {
 
             String controls = "Controls:\n Up/Down/Left/Right: Directional keys\n Place Bomb: Space\n Pause: ESC\n Quit: 'Q'";
 
-            g.setColor(new Color(0.5f,0.0f,0.0f,0.5f));
+            g.setColor(lavender);
 
             float x2 = ((lmg.ScreenWidth/10f)-(g.getFont().getWidth(controls)/3f));
             float y2 = ((lmg.ScreenHeight/16f)-(g.getFont().getHeight(controls)/3f));
 
             g.fillRect(x2,y2,g.getFont().getWidth(controls)+10,g.getFont().getHeight(controls)+10);
-            g.setColor(Color.cyan);
+            g.setColor(Color.white);
             g.drawString(controls, x2+3, y2+3);
             g.popTransform();
         }
@@ -149,7 +152,7 @@ public class PlayingState extends BasicGameState {
             float y1 = ((lmg.ScreenHeight/6f)-(g.getFont().getHeight(nextlevel)/3f));
 
             g.fillRect(x1,y1,g.getFont().getWidth(nextlevel)+10,g.getFont().getHeight(nextlevel)+10);
-            g.setColor(Color.cyan);
+            g.setColor(Color.white);
             g.drawString(nextlevel, x1+3, y1+3);
             g.resetTransform();
         }
@@ -249,7 +252,6 @@ public class PlayingState extends BasicGameState {
         if(input.isKeyPressed(Input.KEY_Q)){
             container.exit();
         }
-
 
     }
 

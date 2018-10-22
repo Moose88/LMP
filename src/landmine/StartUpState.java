@@ -94,13 +94,13 @@ class StartUpState extends BasicGameState {
 
         String controls = "Controls:\n Up/Down/Left/Right: Directional keys\n Place Bomb: Space\n Pause: ESC\n Quit: 'Q'";
 
-        g.setColor(new Color(0.5f,0.0f,0.0f,0.5f));
+        g.setColor(lavender);
 
         float x1 = ((lmg.ScreenWidth/11.5f)-(g.getFont().getWidth(controls)/3f));
         float y1 = ((lmg.ScreenHeight/16f)-(g.getFont().getHeight(controls)/3f));
 
         g.fillRect(x1,y1,g.getFont().getWidth(controls)+10,g.getFont().getHeight(controls)+10);
-        g.setColor(Color.cyan);
+        g.setColor(Color.white);
         g.drawString(controls, x1+3, y1+3);
         g.popTransform();
 
@@ -109,13 +109,13 @@ class StartUpState extends BasicGameState {
 
         String scoring = "Scoring:\n Moving: -1 each step .\n Each second you survive: +100.\n Placing a bomb: +50.\n Taking a hit: -200.";
 
-        g.setColor(new Color(0.5f,0.0f,0.0f,0.5f));
+        g.setColor(lavender);
 
         float x2 = ((lmg.ScreenWidth/2.8f)-(g.getFont().getWidth(scoring)/3f));
         float y2 = ((lmg.ScreenHeight/16f)-(g.getFont().getHeight(scoring)/3f));
 
         g.fillRect(x2,y2,g.getFont().getWidth(scoring)+10,g.getFont().getHeight(scoring)+10);
-        g.setColor(Color.cyan);
+        g.setColor(Color.white);
         g.drawString(scoring, x2+3, y2+3);
         g.popTransform();
 

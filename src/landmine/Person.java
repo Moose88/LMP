@@ -90,6 +90,17 @@ public class Person extends Entity{
 
         level = Level.getInstance();
 
+        if(pNumber == 1){
+            SetColor(new Color(1.0f, 0.7f, 0.8f));
+
+        } else if(pNumber == 2){
+            SetColor(new Color(0.53f, 0.81f, 0.92f));
+
+        } else if(pNumber == 3){
+            SetColor(new Color(0.0f, 1.0f, 0.0f));
+
+        }
+
         Direction.SOUTH.setWalk(new Animation(master, 2, 16, 3, 16, true, 250, true));
 
         Direction.NORTH.setWalk(new Animation(master, 8, 16, 9, 16, true, 250, true));
