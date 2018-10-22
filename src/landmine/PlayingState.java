@@ -12,6 +12,7 @@ public class PlayingState extends BasicGameState {
 
     private Level level = Level.getInstance();
 
+    public static int remainingLives;
     private boolean paused;
     private boolean newLevel;
     private boolean success;
@@ -33,6 +34,7 @@ public class PlayingState extends BasicGameState {
         success = false;
         newLevel = false;
         waitTime = 0;
+        remainingLives = 3;
 
     }
 
@@ -51,6 +53,9 @@ public class PlayingState extends BasicGameState {
         level.findSafeSpaces();
         volume = level.game_theme.getVolume();
         player = level.playerList.get(0);
+        if(player.lives > remainingLives){
+            player.lives = remainingLives;
+        }
         player.initialAnimation();
         comp1 = level.playerList.get(1);
         comp1.initialAnimation();
@@ -174,6 +179,7 @@ public class PlayingState extends BasicGameState {
             System.out.println("Next level!");
             //Render a success screen for 5 seconds, then do whatever.
             success = true;
+            remainingLives = player.lives;
             if(waitTime >= 5000)
                 lmg.enterState(LandMineGame.PLAYINGSTATE, new EmptyTransition(), new HorizontalSplitTransition());
 
@@ -260,6 +266,12 @@ public class PlayingState extends BasicGameState {
         if(key == Input.KEY_Z){
             player.lives = 0;
             player.takeLife();
+        }
+
+        if(key == Input.KEY_W){
+            comp1.lives = 0;
+            comp2.lives = 0;
+            comp3.lives = 0;
         }
     }
 

@@ -52,6 +52,7 @@ class StartUpState extends BasicGameState {
         container.setSoundOn(true);
         Input input = container.getInput();
         input.clearKeyPressedRecord();
+        PlayingState.remainingLives = 3;
     }
 
 
