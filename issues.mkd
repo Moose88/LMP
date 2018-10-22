@@ -21,20 +21,16 @@
 - **[6]** Build scoring system and timer system
     - Manage to calculate score for kills, movement, and placed bombs.
 
-<<<<<<< HEAD
 - **[10.1]** Minor bug with Left/Right animations
     - When moving left/right, animations from south facing direction not being removed.
     - For some reason, when an individual player is created, there is no bug. When more than one player is created, then the bug exists.
 
-## Open Low-Bar Issues ##
-
-=======
->>>>>>> issue7
 - **[7]** Game Over/High Score states
     - While game is active, store the high score and display it on the startup screen
 
 ## Open Low-Bar Issues ##
 
+- **[7.1]** Minor bug when moving between game states, lives dont transfer properly
 
 ## Open High-Bar Issues ##
 
