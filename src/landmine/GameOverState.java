@@ -29,6 +29,12 @@ public class GameOverState extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         LandMineGame lmg = (LandMineGame) game;
 
+        g.pushTransform();
+        g.scale(2,2);
+        String highscore = "High Score: " + lmg.highScore;
+        g.drawString(highscore, lmg.ScreenWidth/4f-(g.getFont().getWidth(highscore)/2f), 675);
+        g.popTransform();
+
         g.drawImage(ResourceManager.getImage(LandMineGame.GAMEOVER_BANNER_RSC),
                 lmg.ScreenWidth/2f-ResourceManager.getImage(LandMineGame.GAMEOVER_BANNER_RSC).getWidth()/2f,
                 lmg.ScreenHeight/2f-ResourceManager.getImage(LandMineGame.GAMEOVER_BANNER_RSC).getHeight()/2f);

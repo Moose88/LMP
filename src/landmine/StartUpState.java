@@ -83,7 +83,10 @@ class StartUpState extends BasicGameState {
 
         //Name on the splash
         g.setColor(Color.white);
-        g.drawString("By Matthew Bourgoine", 1200, 1200);
+        g.pushTransform();
+        g.scale(2f, 2f);
+        g.drawString("By Matthew Bourgoine\nHigh Score: " + lmg.highScore, 530, 600);
+        g.popTransform();
 
         g.pushTransform();
         g.scale(2f,2f);
