@@ -1,0 +1,80 @@
+Author: Matthew Bourgoine
+
+## Land Mine Person ##
+
+Welcome to Land Mine Person, where the objective of the game, is simply
+to survive as long as possible against the patriarchy. You start in the
+top left corner, the gender fluid character that chooses their new
+gender every half second! Your enemies however, are all the other 3
+players in every other corner. Move, dodge, and strategically place your
+ bombs in which to retaliate against your cis gendered enemies.
+
+Controls:
+---------
+- Up/Down/Left/Right: Directional keys
+- Place Bomb: Space
+- Pause: ESC
+- Quit: 'Q'
+
+Cheat Codes:
+------------
+- Z will end the current game, giving an instant game over
+- W will eliminate all enemies on the screen (without any bonus points)
+
+Score is determined as follows:
+-------------------------------
+- For each second you survive, you gain 100 points.
+- When you place a bomb, you gain 50 points.
+- If you take a hit, you lose 200 points.
+- Every time you move, you lose one point per step.
+
+Low-Bar Goals:
+--------------
+
+- Have a working game!
+    - Completed!
+
+- Pause and exit the game from the playing state
+    - Completed!
+
+- Two different types of AI settings, one offensive where they seek out
+the player, and one defensive where they avoid mines and attempt to take
+ the power ups before the player.
+    - Completed!
+
+- Have some of the power-ups working, Extra life at a minimum
+    - Incomplete (Sent an email regarding such)
+
+- Correctly working mechanics
+    - Completed!
+
+- The top menu in the UI
+    - Completed!
+
+- Properly working tile maps
+    - Completed!
+
+- Have a single high score recorded based off interaction in the game
+    - Completed!
+
+High-Bar Goals:
+---------------
+- Multiplayer Functionality for a second player to jump in a play.
+    - Incomplete
+
+- All four power-ups being added and successfully working.
+    - Incomplete
+
+- MUSIC!
+    - Completed!
+
+- Having randomly generated destructible blocks in a level scaling
+format (e.g. level one would have less destructible blocks as level two)
+    - Incomplete
+
+- GRAPHICS!
+    - Completed!
+
+Licensing:
+----------
+All resources, as well as code and art/music is part of GPL.

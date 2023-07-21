@@ -1,0 +1,45 @@
+## Resolved Issues ##
+
+- **[1]** Need a skeletal, executable game
+
+- **[2]** Build a map from Tiled
+
+- **[3]** Build the playing state to transition from startup state
+
+- **[4]** Build the character entities and bomb interactions
+
+- **[5]** Construct AI configurations
+    - **[5.1]** Change the lives of players to become 0, instead of removing them from the playerlist.
+
+- **[8]** Updated startup state to be more appeasing
+
+- **[9]** Add Music and Sound FX
+
+- **[10]** Add animations and graphics
+    - Minor bug with Left/Right animations, see **[10.1]**
+    - Fixed bug with images being blurry and not that clean looking. Fixed error in develop branch.
+
+- **[6]** Build scoring system and timer system
+    - Manage to calculate score for kills, movement, and placed bombs.
+
+- **[10.1]** Minor bug with Left/Right animations
+    - When moving left/right, animations from south facing direction not being removed.
+    - For some reason, when an individual player is created, there is no bug. When more than one player is created, then the bug exists.
+    - The issue was from calling the initial animation in the constructor. Instead, created a function to call the initial animation, then once the movement began, removed the initial animation.
+
+- **[7]** Game Over/High Score states
+    - While game is active, store the high score and display it on the startup screen
+
+- **[7.1]** Minor bug when moving between game states, lives dont transfer properly
+
+## Open Low-Bar Issues ##
+
+## Open High-Bar Issues ##
+
+- **[11]** Add multiplayer
+    - If selected on the startup state, instead of adding a Dinky, add a player with controls
+
+- **[12]** Add Powerups
+    - Create an extra life to be summoned at the center during random time intervals
+
+- **[13]** Add blocks and obstructions

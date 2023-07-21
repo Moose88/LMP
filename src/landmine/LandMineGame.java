@@ -66,6 +66,8 @@ public class LandMineGame extends StateBasedGame {
         ScreenHeight = height;
         ScreenWidth = width;
 
+        ResourceManager.setFilterMethod(ResourceManager.FILTER_LINEAR);
+
         Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
         //Entity.setDebug(true);
 

@@ -90,9 +90,9 @@ public class Level {
 
     public boolean notAWall(int x, int y){
         wallLayer = map.getLayerIndex("Walls");
-        //System.out.println("wallLayer: " + wallLayer);
-        map.getTileId(0, 0, wallLayer);
-        //System.out.println("TileID: " + map.getTileId(x, y, wallLayer));
+        System.out.println("wallLayer: " + wallLayer);
+        //map.getTileId(0, 0, wallLayer);
+        System.out.println("TileID: " + map.getTileId(x, y, wallLayer));
 
         if(map.getTileId(x, y, wallLayer) == 0){
             return true;

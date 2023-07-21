@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="15" height="13" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1">
+ <tileset firstgid="1" source="bomb_party_v4.tsx"/>
+ <layer name="Base" width="15" height="13" visible="0" locked="1">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAAzvKwMBwlAIsjEVMDIjFkfhSQCwNxDJo6hWgtBIBO7SgtA6SmD6UNoTSxmh6zNH41khsOyjtAKWdoLQLlHZD0+uFxPaF0v5QOhBKB0PpUDS9kUjsGCgdB6UToHQSlE5B05uBxM6G0rloagqhdDGULoXS5UhqqqB0DZreBijdBKVboHQbkppOKN2NI24mQunJUHoqktwMKD2LQPzC8BIkNnq6Wg3Ea4B4LRCvA+L1QLwBiDcC8SYs6snBACu3FRkMAwAA
+  </data>
+ </layer>
+ <layer name="Walls" width="15" height="13" locked="1">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA53NW0qCYRRG4V8t81DWCBKJCC9sBEaESESNoJAICakRFCEhEjmCJCJCQkeglWXZYWItcI3g2/Cw3rsdi6IojgTmMI8kFpBCGhlksYgl5LCMlSjsVpF3F+yaXbcbtmgzsVlL2Az8W8aWe9vu2Iqt2l27Z/dxEPj3EEfumj22J7ZuT23DnuE88O8FLt1Xtmmvbcu27Y29RSfw7x267nv7YB/tk+3ZZ9vHIPDvECO84BVvGOMdH5jgE1+Y4hs/+MUf/gElRZYcDAMAAA==
+  </data>
+ </layer>
+</map>
